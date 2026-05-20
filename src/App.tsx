@@ -1,7 +1,17 @@
+import './sections.css'
 import HeroSection from './components/HeroSection'
 import StatsSection from './components/StatsSection'
 import ParallaxWorld from './components/ParallaxWorld'
 import CustomCursor from './components/CustomCursor'
+import SectionNav from './components/SectionNav'
+import PropertyOverview from './components/PropertyOverview'
+import RetailLeasing from './components/RetailLeasing'
+import DiningLifestyle from './components/DiningLifestyle'
+import EventsVenues from './components/EventsVenues'
+import Sponsorship from './components/Sponsorship'
+import LocationReach from './components/LocationReach'
+import TheClose from './components/TheClose'
+import Footer from './components/Footer'
 
 export default function App() {
   return (
@@ -20,11 +30,26 @@ export default function App() {
       </svg>
 
       <CustomCursor />
+      <SectionNav />
 
       <main>
-        <HeroSection />
-        <StatsSection />
-        <ParallaxWorld />
+        <div id="hero" data-theme="dark">
+          <HeroSection />
+        </div>
+        <div id="stats" data-theme="dark">
+          <StatsSection />
+        </div>
+        <div id="parallax-world" data-theme="dark">
+          <ParallaxWorld />
+        </div>
+        <PropertyOverview />
+        <RetailLeasing />
+        <DiningLifestyle />
+        <EventsVenues />
+        <Sponsorship />
+        <LocationReach />
+        <TheClose />
+        <Footer />
       </main>
     </>
   )

@@ -8,8 +8,12 @@ interface UseCanvasScrollOptions {
   canvasRef: React.RefObject<HTMLCanvasElement | null>
   containerRef: React.RefObject<HTMLDivElement | null>
   totalFrames: number
-  getFramePath: (frameNumber: number) => string
-  snapPoints: number[]
+  /** Module-level images array — entries may be undefined until loaded */
+  getImages: () => HTMLImageElement[]
+  /** Whether all images have finished loading */
+  isReady: boolean
+  /** 0–100 loading progress */
+  loadingProgress: number
 }
 
 interface UseCanvasScrollReturn {
@@ -19,49 +23,26 @@ interface UseCanvasScrollReturn {
 }
 
 export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrollReturn {
-  const { canvasRef, containerRef, totalFrames, getFramePath, snapPoints } = options
+  const {
+    canvasRef,
+    containerRef,
+    totalFrames,
+    getImages,
+    isReady,
+    loadingProgress,
+  } = options
 
-  // CRITICAL: savedImages declared at TOP, before any useEffect
-  const savedImages = useRef<HTMLImageElement[]>([])
   const progressRef = useRef(0)
   const rafId = useRef(0)
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
 
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [isReady, setIsReady] = useState(false)
   const [currentProgress, setCurrentProgress] = useState(0)
 
-  // Preload all frames
+  // Initialize ScrollTrigger + rAF draw loop at mount — NOT gated on isReady.
+  // The canvas is blank until frames arrive, which is fine because the user
+  // isn't at Section 3 yet.  No ScrollTrigger.refresh() is ever called.
   useEffect(() => {
-    let loadedCount = 0
-    const images: HTMLImageElement[] = []
-
-    for (let i = 1; i <= totalFrames; i++) {
-      const img = new Image()
-      img.src = getFramePath(i)
-      img.onload = () => {
-        loadedCount++
-        setLoadingProgress(Math.round((loadedCount / totalFrames) * 100))
-        if (loadedCount === totalFrames) {
-          setIsReady(true)
-        }
-      }
-      img.onerror = () => {
-        loadedCount++
-        setLoadingProgress(Math.round((loadedCount / totalFrames) * 100))
-        if (loadedCount === totalFrames) {
-          setIsReady(true)
-        }
-      }
-      images.push(img)
-    }
-
-    savedImages.current = images
-  }, [totalFrames, getFramePath])
-
-  // ScrollTrigger + rAF draw loop — only after preload complete
-  useEffect(() => {
-    if (!isReady || !canvasRef.current || !containerRef.current) return
+    if (!canvasRef.current || !containerRef.current) return
 
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d', { alpha: false })
@@ -76,40 +57,30 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
     resize()
     window.addEventListener('resize', resize)
 
-    // Draw first frame immediately
-    const firstFrame = savedImages.current[0]
-    if (firstFrame?.complete) {
-      ctx.drawImage(firstFrame, 0, 0, canvas.width, canvas.height)
-    }
-
-    // ScrollTrigger setup
+    // ScrollTrigger setup — NO snap (snap fights Lenis and causes jump into Section 4)
     scrollTriggerRef.current = ScrollTrigger.create({
       trigger: containerRef.current,
       start: 'top top',
-      end: '+=500vh',
+      end: '+=4000vh',
       pin: true,
       scrub: 1.5,
       invalidateOnRefresh: true,
-      snap: {
-        snapTo: snapPoints,
-        duration: { min: 0.3, max: 0.8 },
-        delay: 0.15,
-        ease: 'power2.inOut',
-      },
       onUpdate: (self) => {
         progressRef.current = self.progress
         setCurrentProgress(self.progress)
       },
     })
 
-    // requestAnimationFrame draw loop
+    // requestAnimationFrame draw loop — reads from the module-level images
+    // array on every frame.  If a frame isn't loaded yet, it simply skips.
     let lastFrame = -1
     const draw = () => {
       const progress = progressRef.current
       const frameIndex = Math.round(progress * (totalFrames - 1))
+      const images = getImages()
 
       if (frameIndex !== lastFrame) {
-        const frame = savedImages.current[frameIndex]
+        const frame = images[frameIndex]
         if (frame?.complete) {
           ctx.clearRect(0, 0, canvas.width, canvas.height)
           ctx.drawImage(frame, 0, 0, canvas.width, canvas.height)
@@ -127,7 +98,7 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
       scrollTriggerRef.current = null
       window.removeEventListener('resize', resize)
     }
-  }, [isReady, canvasRef, containerRef, totalFrames, snapPoints])
+  }, [canvasRef, containerRef, totalFrames, getImages])
 
   return { loadingProgress, isReady, currentProgress }
 }

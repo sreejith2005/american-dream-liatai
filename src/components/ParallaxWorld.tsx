@@ -1,7 +1,6 @@
-import { useRef } from 'react'
+import { useRef, useCallback } from 'react'
 import { useCanvasScroll } from '../hooks/useCanvasScroll'
-
-const TOTAL_FRAMES = 287
+import { useImagePreloader, getPreloadedImages, TOTAL_FRAMES } from '../hooks/useImagePreloader'
 
 const CLIPS = [
   {
@@ -18,7 +17,7 @@ const CLIPS = [
     id: 'destination',
     frameStart: 62,
     frameEnd: 126,
-    snapProgress: 0.213,
+    snapProgress: 0.145,
     eyebrow: 'THE DESTINATION',
     headline: '40M+ Visitors. Your Brand at the Center.',
     sub: 'Premium dwell time. Unmatched foot traffic. A captive audience.',
@@ -28,7 +27,7 @@ const CLIPS = [
     id: 'bigsnow',
     frameStart: 127,
     frameEnd: 167,
-    snapProgress: 0.441,
+    snapProgress: 0.297,
     eyebrow: 'BIG SNOW AMERICAN DREAM',
     headline: "The World's Only Indoor Ski Slope Inside a Mall.",
     sub: '365 days of snow. Zero weather risk. Year-round traffic.',
@@ -38,7 +37,7 @@ const CLIPS = [
     id: 'nickelodeon',
     frameStart: 168,
     frameEnd: 230,
-    snapProgress: 0.584,
+    snapProgress: 0.393,
     eyebrow: 'NICKELODEON UNIVERSE',
     headline: "America's Largest Indoor Theme Park.",
     sub: '35+ rides and attractions. Families return, again and again.',
@@ -47,21 +46,14 @@ const CLIPS = [
   {
     id: 'dreamworks',
     frameStart: 231,
-    frameEnd: 287,
-    snapProgress: 0.804,
+    frameEnd: 428,
+    snapProgress: 0.540,
     eyebrow: 'DREAMWORKS WATER PARK',
     headline: 'One Roof. Infinite Possibilities.',
     sub: 'The largest indoor water park in the Western Hemisphere.',
     cta: 'Explore Partnership Opportunities',
   },
 ]
-
-const SNAP_POINTS = [0, 0.213, 0.441, 0.584, 0.804, 1.0]
-
-const getFramePath = (frameNumber: number): string => {
-  const padded = String(frameNumber).padStart(3, '0')
-  return `/assets/frames/ezgif-frame-${padded}.jpg`
-}
 
 function getActiveClipIndex(progress: number): number {
   for (let i = CLIPS.length - 1; i >= 0; i--) {
@@ -79,8 +71,8 @@ function getClipLocalProgress(progress: number, clipIndex: number): number {
 }
 
 function getOverlayOpacity(localProgress: number): number {
-  if (localProgress <= 0.30) return 1
-  if (localProgress <= 0.55) return 1 - (localProgress - 0.30) / 0.25
+  if (localProgress <= 0.70) return 1
+  if (localProgress <= 0.90) return 1 - (localProgress - 0.70) / 0.20
   return 0
 }
 
@@ -88,12 +80,19 @@ export default function ParallaxWorld() {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const { loadingProgress, isReady, currentProgress } = useCanvasScroll({
+  // Local hook — reacts to loading progress from the singleton preloader
+  const { isReady, loadingProgress } = useImagePreloader()
+
+  // Stable reference to the module-level images array
+  const getImages = useCallback(() => getPreloadedImages(), [])
+
+  const { currentProgress } = useCanvasScroll({
     canvasRef,
     containerRef,
     totalFrames: TOTAL_FRAMES,
-    getFramePath,
-    snapPoints: SNAP_POINTS,
+    getImages,
+    isReady,
+    loadingProgress,
   })
 
   const activeClipIndex = getActiveClipIndex(currentProgress)
@@ -102,13 +101,19 @@ export default function ParallaxWorld() {
   const overlayOpacity = getOverlayOpacity(localProgress)
   const ctaVisible = activeClipIndex === CLIPS.length - 1 && localProgress > 0.65
 
+  // Closing overlay: fades in during last 15% of clip 5 (localProgress 0.85–1.0)
+  const isLastClip = activeClipIndex === CLIPS.length - 1
+  const closingOpacity = isLastClip && localProgress > 0.85
+    ? Math.min(1, (localProgress - 0.85) / 0.15)
+    : 0
+
   return (
     <>
       <section
         ref={containerRef}
         className="relative h-screen w-full bg-black overflow-hidden"
       >
-        {/* Loading overlay */}
+        {/* Loading overlay — gold progress bar fallback if frames aren't ready */}
         <div
           className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center"
           style={{
@@ -174,10 +179,26 @@ export default function ParallaxWorld() {
             </a>
           )}
         </div>
+
+        {/* Closing overlay — visible at final frame / snap 1.0 */}
+        <div
+          className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
+          style={{ opacity: closingOpacity, transition: 'opacity 400ms ease' }}
+        >
+          <span className="font-bebas text-gold text-xs tracking-[0.3em] uppercase">
+            THE DREAM
+          </span>
+          <h3 className="font-cormorant text-white leading-tight text-[clamp(1.8rem,3.5vw,3rem)]">
+            This isn't a mall. It's a media channel with a zip code.
+          </h3>
+          <p className="font-inter text-white/70 text-sm leading-relaxed max-w-xs">
+            Where the world comes to play — and your brand comes to matter.
+          </p>
+        </div>
       </section>
 
-      {/* Section exit transition — breath before next section */}
-      <div className="h-[40vh] bg-black flex items-center justify-center">
+      {/* Section exit transition — brief breath before Section 4 */}
+      <div className="h-[10vh] bg-black flex items-center justify-center">
         <div className="w-24 h-px bg-gold/60" />
       </div>
     </>

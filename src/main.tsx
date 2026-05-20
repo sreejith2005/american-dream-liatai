@@ -9,12 +9,16 @@ import App from './App.tsx'
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger)
 
+// Exported Lenis instance — null-check before use in components
+export let lenisInstance: Lenis | null = null
+
 // Initialize Lenis smooth scroll
 const lenis = new Lenis({
   duration: 1.2,
   easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smoothWheel: true,
 })
+lenisInstance = lenis
 
 // Connect Lenis to GSAP ScrollTrigger
 lenis.on('scroll', ScrollTrigger.update)

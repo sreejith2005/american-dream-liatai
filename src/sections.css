@@ -1,0 +1,35 @@
+/* ═══ Events Marquee — Pure CSS ═══ */
+@keyframes events-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.events-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: events-marquee 20s linear infinite;
+}
+
+/* ═══ Location Pulse — Center Dot ═══ */
+@keyframes location-dot-pulse {
+  0% {
+    r: 2.5;
+    opacity: 1;
+  }
+  50% {
+    r: 4;
+    opacity: 0.6;
+  }
+  100% {
+    r: 2.5;
+    opacity: 1;
+  }
+}
+
+.location-pulse {
+  animation: location-dot-pulse 2s ease-in-out infinite;
+}
