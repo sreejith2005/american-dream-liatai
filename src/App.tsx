@@ -1,5 +1,6 @@
 import HeroSection from './components/HeroSection'
 import StatsSection from './components/StatsSection'
+import ParallaxWorld from './components/ParallaxWorld'
 import CustomCursor from './components/CustomCursor'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
       <main>
         <HeroSection />
         <StatsSection />
+        <ParallaxWorld />
       </main>
     </>
   )
