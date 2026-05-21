@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react'
 import { useCanvasScroll } from '../hooks/useCanvasScroll'
-import { useImagePreloader, getPreloadedImages, TOTAL_FRAMES, startCriticalPreload } from '../hooks/useImagePreloader'
+import { useImagePreloader, getPreloadedImages, TOTAL_FRAMES } from '../hooks/useImagePreloader'
 
 const CLIPS = [
   {

@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react'
-import { lenisInstance } from '../main'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
