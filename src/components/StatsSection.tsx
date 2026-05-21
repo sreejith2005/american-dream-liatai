@@ -125,13 +125,13 @@ export default function StatsSection() {
     <section
       id="stats-section"
       ref={sectionRef}
-      className="relative w-full h-screen flex flex-col"
+      className="relative w-full min-h-screen md:h-screen flex flex-col"
       style={{ background: '#0A0A0A' }}
     >
       {/* Main two-column content */}
-      <div className="flex-1 flex items-center px-16">
+      <div className="flex-1 flex flex-col md:flex-row items-center px-6 md:px-16">
         {/* Left column */}
-        <div ref={leftColRef} className="w-1/2 flex flex-col justify-center pr-16">
+        <div ref={leftColRef} className="w-full md:w-1/2 flex flex-col justify-center pr-0 md:pr-16 py-12 md:py-0">
           <span
             data-reveal
             className="font-inter text-gold text-[11px] tracking-[0.25em] uppercase mb-8"
@@ -140,13 +140,13 @@ export default function StatsSection() {
           </span>
 
           <div data-reveal>
-            <h2 className="font-cormorant text-white text-[64px] leading-[1.05]">
+            <h2 className="font-cormorant text-white text-[36px] md:text-[48px] lg:text-[64px] leading-[1.05]">
               A destination that
             </h2>
-            <h2 className="font-cormorant text-white text-[64px] leading-[1.05]">
+            <h2 className="font-cormorant text-white text-[36px] md:text-[48px] lg:text-[64px] leading-[1.05]">
               operates at
             </h2>
-            <h2 className="font-cormorant italic text-gold text-[64px] leading-[1.05]">
+            <h2 className="font-cormorant italic text-gold text-[36px] md:text-[48px] lg:text-[64px] leading-[1.05]">
               a different scale.
             </h2>
           </div>
@@ -163,7 +163,7 @@ export default function StatsSection() {
         </div>
 
         {/* Right column — 2x2 stat grid */}
-        <div className="w-1/2 grid grid-cols-2 gap-x-12 gap-y-14">
+        <div className="w-full md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-14 pb-12 md:pb-0">
           {stats.map((stat, i) => (
             <div key={stat.label} className="relative pl-6">
               {/* Animated gold left border */}
@@ -179,7 +179,7 @@ export default function StatsSection() {
 
               <span
                 ref={(el) => { numberRefs.current[i] = el }}
-                className="font-bebas text-white text-[96px] leading-none block"
+                className="font-bebas text-white text-5xl md:text-[96px] leading-none block"
               >
                 0{stat.suffix}
               </span>
@@ -194,7 +194,7 @@ export default function StatsSection() {
 
       {/* Bottom marquee ticker */}
       <div
-        className="w-full shrink-0"
+        className="w-full shrink-0 overflow-hidden"
         style={{
           height: 48,
           borderTop: '1px solid rgba(201,168,76,0.2)',

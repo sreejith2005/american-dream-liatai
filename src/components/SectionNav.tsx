@@ -52,7 +52,7 @@ export default function SectionNav() {
   return (
     <nav
       ref={navRef}
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-end gap-4"
+      className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-end gap-4"
     >
       {SECTIONS.map((section, i) => {
         const isActive = i === activeIndex

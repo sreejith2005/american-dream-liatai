@@ -12,10 +12,12 @@
 }
 
 /* ═══ Global Resets ═══ */
-*,
-*::before,
-*::after {
-  cursor: none !important;
+@media (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
 }
 
 html,

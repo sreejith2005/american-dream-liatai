@@ -217,13 +217,13 @@ export default function ParallaxWorld() {
           <div
             key={clip.id}
             ref={(el) => { overlayRefs.current[i] = el }}
-            className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
+            className="absolute bottom-12 left-6 md:left-12 z-20 flex flex-col gap-3 max-w-sm px-2 md:px-0"
             style={{ opacity: 0 }}
           >
-            <span className="font-bebas text-gold text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <span className="font-bebas text-gold text-sm md:text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
               {clip.eyebrow}
             </span>
-            <h3 className="font-cormorant text-white font-semibold leading-tight text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
+            <h3 className="font-cormorant text-white font-semibold leading-tight text-3xl md:text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
               {clip.headline}
             </h3>
             {clip.cta && (
@@ -231,7 +231,7 @@ export default function ParallaxWorld() {
                 ref={ctaRef}
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                className="mt-2 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300"
+                className="mt-2 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-4 md:py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300 min-h-[44px] flex items-center"
                 style={{ opacity: 0, pointerEvents: 'none' }}
                 data-cursor-hover
               >
@@ -244,13 +244,13 @@ export default function ParallaxWorld() {
         {/* Closing overlay — visible at final frame / snap 0.999 */}
         <div
           ref={closingRef}
-          className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
+          className="absolute bottom-12 left-6 md:left-12 z-20 flex flex-col gap-3 max-w-sm px-2 md:px-0"
           style={{ opacity: 0, transition: 'opacity 400ms ease' }}
         >
-          <span className="font-bebas text-gold text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          <span className="font-bebas text-gold text-sm md:text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             THE DREAM
           </span>
-          <h3 className="font-cormorant text-white font-semibold leading-tight text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
+          <h3 className="font-cormorant text-white font-semibold leading-tight text-3xl md:text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
             This isn't a mall. It's a media channel with a zip code.
           </h3>
         </div>

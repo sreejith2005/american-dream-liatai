@@ -280,7 +280,7 @@ export default function LocationReach() {
           </div>
 
           {/* Transit icons */}
-          <div className="mt-2 flex gap-8 justify-center">
+          <div className="mt-2 flex flex-wrap gap-4 md:gap-8 justify-center">
             {transit.map((t) => (
               <span key={t.label} className="font-inter text-white/40 text-xs tracking-widest flex items-center gap-2 uppercase">
                 <span className="text-gold/60">{t.icon}</span>

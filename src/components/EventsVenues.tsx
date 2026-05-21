@@ -211,7 +211,7 @@ export default function EventsVenues() {
       {/* Bottom CTA bar */}
       <div className="mt-20 border-t border-white/10 pt-12 text-center">
         <h3 className="font-cormorant text-white text-[2rem]">Your next event belongs here.</h3>
-        <div className="flex items-center justify-center gap-4 mt-6">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
           <button
             onClick={() => openModal('events')}
             className="bg-gold text-black font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold/90 transition-all duration-300 cursor-pointer"

@@ -205,7 +205,7 @@ export default function RetailLeasing() {
         <h3 className="font-cormorant text-white text-[2rem] mt-2 mb-6">
           Talk to our leasing team.
         </h3>
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={() => navigate('/leasing')}
             className="bg-gold text-black font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold/90 transition-all duration-300 cursor-pointer"

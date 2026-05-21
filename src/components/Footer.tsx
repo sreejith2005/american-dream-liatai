@@ -50,9 +50,9 @@ export default function Footer() {
         </div>
 
         {/* Right — Link columns */}
-        <div className="flex gap-16">
+        <div className="flex flex-wrap gap-10 md:gap-16">
           {linkColumns.map((col) => (
-            <div key={col.title} className="flex flex-col gap-2">
+            <div key={col.title} className="flex flex-col gap-2 text-center md:text-left">
               <span className="font-inter text-white/60 text-xs tracking-widest uppercase mb-2">
                 {col.title}
               </span>
@@ -61,7 +61,7 @@ export default function Footer() {
                   key={link}
                   href={`#${link.toLowerCase()}`}
                   onClick={(e) => handleLinkClick(e, link)}
-                  className="font-inter text-white/40 text-xs hover:text-white/80 transition-colors duration-300 cursor-pointer"
+                  className="font-inter text-white/40 text-xs hover:text-white/80 transition-colors duration-300 cursor-pointer py-2"
                 >
                   {link}
                 </a>

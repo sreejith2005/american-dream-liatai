@@ -7,16 +7,16 @@ import type { LeasingSpace } from '../data/leasingData'
 
 export default function LeasingPage() {
   const [selectedSpace, setSelectedSpace] = useState<LeasingSpace | null>(null)
-  
+
   // Form State
   const [name, setName] = useState('')
   const [company, setCompany] = useState('')
   const [email, setEmail] = useState('')
   const [spaceType, setSpaceType] = useState('Luxury Flagship')
   const [message, setMessage] = useState('')
-  
+
   const [isSuccess, setIsSuccess] = useState(false)
-  
+
   // Validation shake animation controls
   const [shakeName, setShakeName] = useState(false)
   const [shakeEmail, setShakeEmail] = useState(false)
@@ -41,35 +41,35 @@ export default function LeasingPage() {
       setTimeout(() => setShakeEmail(false), 400)
       valid = false
     }
-    
+
     if (valid) {
       setIsSuccess(true)
     }
   }
 
-  const inputClasses = "bg-transparent border-b border-[#C9A84C]/30 text-white w-full py-3 outline-none font-inter"
+  const inputClasses = "bg-transparent border-b border-[#C9A84C]/30 text-white text-base w-full py-3 outline-none font-inter"
 
   return (
     <main className="w-full bg-[#000000] min-h-screen">
       <LeasingHero />
       <CategoryGrid onSelectSpace={setSelectedSpace} />
-      
+
       {/* Enquiry Form Section */}
-      <div id="leasing-contact" className="bg-[#000000] py-24 px-8 max-w-2xl mx-auto">
+      <div id="leasing-contact" className="bg-[#000000] py-24 px-6 md:px-8 max-w-2xl mx-auto">
         {/* Horizontal Rule */}
-        <motion.div 
+        <motion.div
           ref={ruleRef}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: isRuleInView ? 1 : 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full h-px bg-[#C9A84C] origin-left mb-16"
         />
-        
+
         <div className="text-center mb-12">
           <span className="font-inter text-[#C9A84C] tracking-widest uppercase text-sm mb-4 block">
             GET IN TOUCH
           </span>
-          <h2 className="font-cormorant text-white text-5xl mb-4">
+          <h2 className="font-cormorant text-white text-3xl md:text-5xl mb-4">
             Ready to find your space at American Dream?
           </h2>
           <p className="font-inter text-white/60 text-base">
@@ -78,14 +78,14 @@ export default function LeasingPage() {
         </div>
 
         {isSuccess ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="flex flex-col items-center justify-center py-12"
           >
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="mb-6">
-              <circle cx="32" cy="32" r="31" stroke="#C9A84C" strokeWidth="2"/>
-              <path d="M20 32L28 40L44 24" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="32" cy="32" r="31" stroke="#C9A84C" strokeWidth="2" />
+              <path d="M20 32L28 40L44 24" stroke="#C9A84C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <h3 className="font-cormorant text-white text-3xl text-center">
               Thank you. We'll be in touch within 24 hours.
@@ -93,9 +93,9 @@ export default function LeasingPage() {
           </motion.div>
         ) : (
           <div className="flex flex-col gap-6">
-            <motion.input 
-              type="text" 
-              placeholder="Name" 
+            <motion.input
+              type="text"
+              placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={inputClasses}
@@ -103,17 +103,17 @@ export default function LeasingPage() {
               transition={{ duration: 0.4 }}
               whileFocus={{ borderColor: "rgba(201, 168, 76, 1)" }}
             />
-            <motion.input 
-              type="text" 
-              placeholder="Company" 
+            <motion.input
+              type="text"
+              placeholder="Company"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               className={inputClasses}
               whileFocus={{ borderColor: "rgba(201, 168, 76, 1)" }}
             />
-            <motion.input 
-              type="email" 
-              placeholder="Email" 
+            <motion.input
+              type="email"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={inputClasses}
@@ -121,7 +121,7 @@ export default function LeasingPage() {
               transition={{ duration: 0.4 }}
               whileFocus={{ borderColor: "rgba(201, 168, 76, 1)" }}
             />
-            <motion.select 
+            <motion.select
               value={spaceType}
               onChange={(e) => setSpaceType(e.target.value)}
               className={`${inputClasses} appearance-none rounded-none`}
@@ -133,32 +133,32 @@ export default function LeasingPage() {
               <option value="Pop-Up & Activation" className="bg-black">Pop-Up & Activation</option>
               <option value="Not Sure Yet" className="bg-black">Not Sure Yet</option>
             </motion.select>
-            <motion.textarea 
-              placeholder="Message" 
-              rows={4} 
+            <motion.textarea
+              placeholder="Message"
+              rows={4}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className={`${inputClasses} resize-none`}
               whileFocus={{ borderColor: "rgba(201, 168, 76, 1)" }}
             />
-            <button 
+            <button
               onClick={handleSubmit}
-              className="w-full bg-[#C9A84C] text-[#000000] font-bebas tracking-widest text-xl py-4 mt-6 hover:bg-white transition-colors duration-300"
+              className="w-full bg-[#C9A84C] text-[#000000] font-bebas tracking-widest text-xl py-5 mt-6 hover:bg-white transition-colors duration-300 min-h-[44px]"
             >
               SEND ENQUIRY
             </button>
           </div>
         )}
       </div>
-      
+
       {/* 
         The panel uses GSAP for its entrance/exit animations.
         It mounts once and remains in the DOM, managing its own 
         visibility state based on the `space` prop.
       */}
-      <LeasingPanel 
-        space={selectedSpace} 
-        onClose={() => setSelectedSpace(null)} 
+      <LeasingPanel
+        space={selectedSpace}
+        onClose={() => setSelectedSpace(null)}
       />
     </main>
   )

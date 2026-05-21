@@ -116,13 +116,13 @@ export default function TheClose() {
       <div className="absolute inset-0 bg-black/80" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-8">
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-8">
         {/* Top */}
         <div className="text-center">
           <span data-reveal className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-4">
             YOUR NEXT MOVE
           </span>
-          <h2 data-reveal className="font-cormorant text-white text-[clamp(3rem,5vw,5rem)] leading-none">
+          <h2 data-reveal className="font-cormorant text-white text-4xl md:text-[clamp(3rem,5vw,5rem)] leading-none">
             The American Dream
             <br />
             Is Waiting for You.
@@ -139,7 +139,7 @@ export default function TheClose() {
             <div
               key={card.eyebrow}
               data-card
-              className="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 p-10 text-center hover:border-gold transition-all duration-400 cursor-pointer group"
+              className="flex-1 bg-white/5 backdrop-blur-sm border border-white/10 p-6 md:p-10 text-center hover:border-gold transition-all duration-400 cursor-pointer group"
             >
               <div className="flex justify-center">{card.icon}</div>
               <span className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mt-4">
@@ -153,7 +153,7 @@ export default function TheClose() {
               </p>
               <button
                 onClick={() => openModal(card.cta)}
-                className="w-full mt-6 block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 group-hover:bg-gold group-hover:text-black transition-all duration-300 cursor-pointer"
+                className="w-full mt-6 block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 min-h-[44px] group-hover:bg-gold group-hover:text-black transition-all duration-300 cursor-pointer"
               >
                 {card.cta}
               </button>

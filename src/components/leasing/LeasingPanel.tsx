@@ -45,31 +45,40 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
 
   return (
     <>
-      {/* Scrim */}
+      {/* Scrim — hidden on mobile since panel is full width */}
       <div
         ref={scrimRef}
-        className={`fixed inset-0 bg-black/60 z-40 ${space ? 'pointer-events-auto' : 'pointer-events-none opacity-0'}`}
+        className={`fixed inset-0 bg-black/60 z-40 hidden md:block ${space ? 'pointer-events-auto' : 'pointer-events-none opacity-0'}`}
         onClick={onClose}
       />
 
       {/* Slide-in Panel — exactly viewport height, no overflow/scroll */}
       <div
         ref={panelRef}
-        className="fixed top-0 right-0 w-[85vw] max-w-[860px] h-screen bg-[#0D0D0D] z-50 shadow-2xl translate-x-full overflow-hidden"
+        className="fixed top-0 right-0 w-[100vw] md:w-[85vw] max-w-[860px] h-screen bg-[#0D0D0D] z-50 shadow-2xl translate-x-full overflow-hidden"
       >
         {space && (
           <div className="flex flex-col h-screen">
-            {/* Close button */}
+            {/* Mobile back bar */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black transition-colors"
+              className="w-full py-4 bg-[#0D0D0D] border-b border-[#C9A84C]/30 text-[#C9A84C] font-bebas text-lg tracking-widest text-center flex items-center justify-center gap-2 md:hidden min-h-[44px]"
+              aria-label="Go back"
+            >
+              ← BACK
+            </button>
+
+            {/* Close button — desktop */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 w-11 h-11 bg-black/50 rounded-full hidden md:flex items-center justify-center text-white hover:bg-black transition-colors p-3"
               aria-label="Close panel"
             >
               ✕
             </button>
 
-            {/* Hero Image — compact 28vh */}
-            <div className="w-full shrink-0 relative" style={{ height: '28vh' }}>
+            {/* Hero Image — compact, responsive height */}
+            <div className="w-full shrink-0 relative h-[200px] md:h-[280px]">
               <img
                 src={space.imagePath}
                 alt={space.name}
@@ -79,7 +88,7 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
             </div>
 
             {/* Content — fills remaining space */}
-            <div className="flex-1 flex flex-col justify-between px-8 py-5 md:px-10 md:py-6 min-h-0">
+            <div className="flex-1 flex flex-col justify-between px-4 md:px-8 py-5 md:py-6 min-h-0">
               {/* Top section: title + details */}
               <div>
                 <span className="font-inter text-white/60 text-xs tracking-widest uppercase mb-1 block">

@@ -68,16 +68,22 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
     window.addEventListener('resize', resize)
 
     // ScrollTrigger setup — with snap points synced to zone clip boundaries
+    const isMobile = window.innerWidth < 768
+    const scrollDistance = isMobile ? '+=1200vh' : '+=4000vh'
+    const snapDuration = isMobile
+      ? { min: 0.3, max: 0.6 }
+      : { min: 0.6, max: 1.2 }
+
     scrollTriggerRef.current = ScrollTrigger.create({
       trigger: containerRef.current,
       start: 'top top',
-      end: '+=4000vh',
+      end: scrollDistance,
       pin: true,
       scrub: 1.5,
       invalidateOnRefresh: true,
       snap: {
         snapTo: [0.000, 0.201, 0.425, 0.584, 0.801, 0.999],
-        duration: { min: 0.6, max: 1.2 },
+        duration: snapDuration,
         delay: 0.05,
         ease: "power1.inOut"
       },

@@ -9,7 +9,7 @@ export default function LeasingHero() {
       {/* Back Navigation */}
       <button
         onClick={() => navigate('/#retail')}
-        className="absolute top-8 left-8 md:top-12 md:left-12 font-inter text-[#C9A84C] text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 z-10"
+        className="absolute top-8 left-8 md:top-12 md:left-12 font-inter text-[#C9A84C] text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 z-10 py-3 px-2 min-h-[44px] flex items-center"
       >
         ← AMERICAN DREAM
       </button>

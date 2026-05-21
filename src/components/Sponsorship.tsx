@@ -141,15 +141,15 @@ export default function Sponsorship() {
       </div>
 
       {/* Audience demographics */}
-      <div data-reveal className="mt-16 border-t border-b border-charcoal/10 py-10 flex flex-wrap items-center gap-0">
+      <div data-reveal className="mt-16 border-t border-b border-charcoal/10 py-10 grid grid-cols-2 md:flex md:flex-wrap md:items-center gap-6 md:gap-0">
         {audienceStats.map((stat, i) => (
           <div key={stat.label} className="flex items-center">
-            <div className="flex flex-col px-6 md:px-8">
+            <div className="flex flex-col px-0 md:px-8">
               <span className="font-bebas text-charcoal text-3xl md:text-4xl leading-none">{stat.value}</span>
               <span className="font-inter text-charcoal/60 text-xs mt-1 max-w-[160px]">{stat.label}</span>
             </div>
             {i < audienceStats.length - 1 && (
-              <div className="w-px h-12 bg-charcoal/10 shrink-0" />
+              <div className="hidden md:block w-px h-12 bg-charcoal/10 shrink-0" />
             )}
           </div>
         ))}

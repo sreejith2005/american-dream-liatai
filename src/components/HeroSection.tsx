@@ -98,7 +98,7 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full bg-black overflow-hidden"
+      className="relative h-screen min-h-screen w-full bg-black overflow-hidden"
     >
       {/* Local video background */}
       <video
@@ -137,7 +137,7 @@ export default function HeroSection() {
           <h1
             key={lineIdx}
             data-intro-line={lineIdx}
-            className="font-cormorant text-white text-[80px] leading-[1.1] tracking-[0.02em] flex gap-[0.3em]"
+            className="font-cormorant text-white text-[36px] md:text-[60px] lg:text-[80px] leading-[1.1] tracking-[0.02em] flex gap-[0.3em] px-6 md:px-0"
           >
             {line.text.split(' ').map((word, wIdx) => (
               <span key={wIdx} className="intro-word inline-block opacity-0">
@@ -149,9 +149,9 @@ export default function HeroSection() {
       </div>
 
       {/* Hero content (visible after video reveals) */}
-      <div ref={heroContentRef} className="absolute inset-0 z-20 opacity-0">
+      <div ref={heroContentRef} className="absolute inset-0 z-20 opacity-0 px-6 md:px-0">
         {/* Top left: Brand */}
-        <div className="absolute top-10 left-10 flex flex-col gap-3">
+        <div className="absolute top-6 left-6 md:top-10 md:left-10 flex flex-col gap-3">
           <span className="font-inter text-gold text-[11px] tracking-[0.25em] uppercase">
             AMERICAN DREAM
           </span>
@@ -165,14 +165,14 @@ export default function HeroSection() {
           </p>
           <div className="overflow-hidden">
             <div ref={headlineL1Ref} className="clip-reveal">
-              <h2 className="font-cormorant text-white text-[88px] leading-[1.0] text-center">
+              <h2 className="font-cormorant text-white text-3xl md:text-5xl lg:text-[88px] leading-[1.0] text-center">
                 The World&rsquo;s Greatest
               </h2>
             </div>
           </div>
           <div className="overflow-hidden">
             <div ref={headlineL2Ref} className="clip-reveal">
-              <h2 className="font-cormorant text-white text-[88px] leading-[1.0] text-center">
+              <h2 className="font-cormorant text-white text-3xl md:text-5xl lg:text-[88px] leading-[1.0] text-center">
                 Entertainment Destination
               </h2>
             </div>
@@ -180,18 +180,18 @@ export default function HeroSection() {
         </div>
 
         {/* Bottom left: Stats */}
-        <div className="absolute bottom-10 left-10 flex items-center gap-4">
-          <span className="font-inter text-white text-[12px] uppercase tracking-[0.15em]">
+        <div className="absolute bottom-20 md:bottom-10 left-6 md:left-10 flex items-center gap-4">
+          <span className="font-inter text-white text-[10px] md:text-[12px] uppercase tracking-[0.15em]">
             40M+ &nbsp;Annual Visitors
           </span>
           <span className="w-px h-4 bg-gold/60" />
-          <span className="font-inter text-white text-[12px] uppercase tracking-[0.15em]">
+          <span className="font-inter text-white text-[10px] md:text-[12px] uppercase tracking-[0.15em]">
             3.3M sq ft &nbsp;Property
           </span>
         </div>
 
         {/* Bottom center: Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
           <span className="font-inter text-white/50 text-[10px] tracking-[0.3em] uppercase">
             Scroll to Explore
           </span>
@@ -199,7 +199,7 @@ export default function HeroSection() {
         </div>
 
         {/* Bottom right: Year */}
-        <div className="absolute bottom-10 right-10">
+        <div className="absolute bottom-20 md:bottom-10 right-6 md:right-10">
           <span className="font-inter text-white/40 text-[11px] tracking-[0.2em]">
             EST. 2019
           </span>

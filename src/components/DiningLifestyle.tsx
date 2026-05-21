@@ -134,7 +134,7 @@ export default function DiningLifestyle() {
           </div>
 
           {/* Stats */}
-          <div data-reveal className="mt-6 flex gap-8">
+          <div data-reveal className="mt-6 flex flex-col sm:flex-row gap-y-4 gap-x-8">
             {diningStats.map((s) => (
               <div key={s.label} className="flex flex-col">
                 <span className="font-bebas text-charcoal text-3xl leading-none">{s.value}</span>
@@ -194,7 +194,7 @@ export default function DiningLifestyle() {
           </div>
 
           {/* Stats */}
-          <div data-reveal className="mt-6 flex gap-8">
+          <div data-reveal className="mt-6 flex flex-col sm:flex-row gap-y-4 gap-x-8">
             {liveStats.map((s) => (
               <div key={s.label} className="flex flex-col">
                 <span className="font-bebas text-charcoal text-3xl leading-none">{s.value}</span>
