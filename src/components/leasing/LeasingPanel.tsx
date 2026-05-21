@@ -13,7 +13,6 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
 
   useEffect(() => {
     if (space) {
-      // Slide in
       gsap.fromTo(
         panelRef.current,
         { x: '100%' },
@@ -24,11 +23,8 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
         { opacity: 0 },
         { opacity: 1, duration: 0.4, ease: 'power2.out' }
       )
-      
-      // Prevent body scroll
       document.body.style.overflow = 'hidden'
     } else {
-      // Slide out
       gsap.to(panelRef.current, {
         x: '100%',
         duration: 0.4,
@@ -39,8 +35,6 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
         duration: 0.3,
         ease: 'power2.in'
       })
-      
-      // Restore body scroll
       document.body.style.overflow = 'auto'
     }
     
@@ -48,11 +42,6 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
       document.body.style.overflow = 'auto'
     }
   }, [space])
-
-  // If no space is provided, we still render the hidden structure so GSAP can animate it out,
-  // but we use the "last known" space data or just return null if never opened.
-  // Actually, keeping the data around until animation finishes is better, but since this is a simple implementation,
-  // we can rely on `pointer-events-none` when `!space`.
 
   return (
     <>
@@ -63,24 +52,24 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
         onClick={onClose}
       />
 
-      {/* Slide-in Panel */}
+      {/* Slide-in Panel — exactly viewport height, no overflow/scroll */}
       <div
         ref={panelRef}
-        className="fixed top-0 right-0 w-[85vw] max-w-[860px] h-full bg-[#0D0D0D] z-50 flex flex-col shadow-2xl overflow-y-auto translate-x-full"
+        className="fixed top-0 right-0 w-[85vw] max-w-[860px] h-screen bg-[#0D0D0D] z-50 shadow-2xl translate-x-full overflow-hidden"
       >
         {space && (
-          <>
-            {/* Close button inside panel */}
+          <div className="flex flex-col h-screen">
+            {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 z-10 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black transition-colors"
               aria-label="Close panel"
             >
               ✕
             </button>
 
-            {/* Hero Image */}
-            <div className="w-full h-[260px] relative shrink-0">
+            {/* Hero Image — compact 28vh */}
+            <div className="w-full shrink-0 relative" style={{ height: '28vh' }}>
               <img
                 src={space.imagePath}
                 alt={space.name}
@@ -89,33 +78,37 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent" />
             </div>
 
-            {/* Content */}
-            <div className="p-8 md:p-12 flex-1 flex flex-col">
-              <span className="font-inter text-white/60 text-xs tracking-widest uppercase mb-3">
-                {space.category}
-              </span>
-              <h2 className="font-bebas text-[#C9A84C] text-5xl md:text-6xl leading-none mb-6">
-                {space.name}
-              </h2>
-              
-              <div className="flex flex-col gap-2 mb-8 pb-8 border-b border-white/10">
-                <p className="font-inter text-white/80 text-lg">
-                  <span className="text-white font-medium">Size:</span> {space.sqft}
-                </p>
-                <p className="font-inter text-white/80 text-lg">
-                  <span className="text-white font-medium">Ideal For:</span> {space.idealFor}
-                </p>
+            {/* Content — fills remaining space */}
+            <div className="flex-1 flex flex-col justify-between px-8 py-5 md:px-10 md:py-6 min-h-0">
+              {/* Top section: title + details */}
+              <div>
+                <span className="font-inter text-white/60 text-xs tracking-widest uppercase mb-1 block">
+                  {space.category}
+                </span>
+                <h2 className="font-bebas text-[#C9A84C] text-4xl md:text-5xl leading-none mb-4">
+                  {space.name}
+                </h2>
+                
+                <div className="flex gap-6 mb-4 pb-4 border-b border-white/10">
+                  <p className="font-inter text-white/80 text-sm">
+                    <span className="text-white font-medium">Size:</span> {space.sqft}
+                  </p>
+                  <p className="font-inter text-white/80 text-sm">
+                    <span className="text-white font-medium">Ideal For:</span> {space.idealFor}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex-1">
-                <h3 className="font-inter text-white/50 text-sm tracking-widest uppercase mb-6">
+              {/* Middle section: highlights */}
+              <div className="flex-1 min-h-0 flex flex-col">
+                <h3 className="font-inter text-white/50 text-xs tracking-widest uppercase mb-3">
                   Space Highlights
                 </h3>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-2">
                   {space.highlights.map((highlight, idx) => (
-                    <li key={idx} className="flex items-start gap-4">
-                      <span className="font-inter text-[#C9A84C] font-light">—</span>
-                      <span className="font-inter text-white/70 text-base leading-relaxed">
+                    <li key={idx} className="flex items-start gap-3">
+                      <span className="font-inter text-[#C9A84C] font-light text-sm">—</span>
+                      <span className="font-inter text-white/70 text-sm leading-relaxed">
                         {highlight}
                       </span>
                     </li>
@@ -123,17 +116,17 @@ export default function LeasingPanel({ space, onClose }: LeasingPanelProps) {
                 </ul>
               </div>
 
-              {/* CTA */}
-              <div className="mt-12 pt-8">
+              {/* Bottom section: CTA */}
+              <div className="pt-4 shrink-0">
                 <a
                   href={`mailto:leasing@americandream.com?subject=Enquiry about ${space.name}`}
-                  className="block w-full text-center bg-[#C9A84C] text-[#000000] font-bebas text-xl tracking-widest py-5 hover:bg-white transition-colors duration-300"
+                  className="block w-full text-center bg-[#C9A84C] text-[#000000] font-bebas text-lg tracking-widest py-4 hover:bg-white transition-colors duration-300"
                 >
                   {space.ctaLabel}
                 </a>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>

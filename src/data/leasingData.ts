@@ -32,7 +32,7 @@ export const LEASING_SPACES: LeasingSpace[] = [
   },
   {
     id: 'lux-2',
-    name: 'Corner Jewel Box',
+    name: 'The Retail Dream',
     category: 'LUXURY',
     imagePath: '/assets/Photorealistic-Renders/11.png',
     sqft: '4,200 sq ft',
@@ -46,7 +46,7 @@ export const LEASING_SPACES: LeasingSpace[] = [
   },
   {
     id: 'lux-3',
-    name: 'Avenue Boutique',
+    name: 'American Dream',
     category: 'LUXURY',
     imagePath: '/assets/Photorealistic-Renders/1.png',
     sqft: '6,000 sq ft',
@@ -62,7 +62,7 @@ export const LEASING_SPACES: LeasingSpace[] = [
   // RETAIL & F&B
   {
     id: 'fb-1',
-    name: 'The Conservatory',
+    name: 'The Big Hall',
     category: 'RETAIL & F&B',
     imagePath: '/assets/Photorealistic-Renders/4.png',
     sqft: '12,000 sq ft',
@@ -90,7 +90,7 @@ export const LEASING_SPACES: LeasingSpace[] = [
   },
   {
     id: 'fb-3',
-    name: 'Culinary Studio',
+    name: 'The Expo and Convention Hall',
     category: 'RETAIL & F&B',
     imagePath: '/assets/Photorealistic-Renders/14.png',
     sqft: '5,500 sq ft',
@@ -134,9 +134,9 @@ export const LEASING_SPACES: LeasingSpace[] = [
   },
   {
     id: 'pop-3',
-    name: 'Innovation Kiosk',
+    name: 'The Culinary Studio',
     category: 'POP-UP & ACTIVATION',
-    imagePath: '/assets/Photorealistic-Renders/54.jpg',
+    imagePath: '/assets/Photorealistic-Renders/5.png',
     sqft: '800 sq ft',
     idealFor: 'Direct-to-Consumer Try-on',
     highlights: [

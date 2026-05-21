@@ -143,26 +143,54 @@ export default function RetailLeasing() {
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-all duration-500 group-hover:from-black/95" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-500 group-hover:from-black/90" />
+
+            {/* Eyebrow badge – pinned to top-left with dark backing */}
+            <span
+              className="absolute top-5 left-5 z-10 font-bebas text-gold tracking-[0.3em] uppercase"
+              style={{
+                fontSize: '0.8rem',
+                padding: '6px 14px',
+                background: 'rgba(0,0,0,0.7)',
+                borderRadius: '2px',
+                border: '1px solid rgba(191,155,48,0.3)',
+              }}
+            >
+              {tier.eyebrow}
+            </span>
 
             {/* Bottom content */}
             <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-              <span className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-2">
-                {tier.eyebrow}
-              </span>
-              <h3 className="font-cormorant text-white text-2xl leading-snug mb-2">
+              <h3
+                className="font-cormorant text-white leading-snug mb-2"
+                style={{ fontSize: '1.75rem', textShadow: '0 2px 8px rgba(0,0,0,0.9)' }}
+              >
                 {tier.name}
               </h3>
-              <p className="font-inter text-white/60 text-sm leading-relaxed mb-3">
+              <p
+                className="font-inter text-white/80 leading-relaxed mb-3"
+                style={{ fontSize: '0.9rem', textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}
+              >
                 {tier.body}
               </p>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="font-bebas text-white text-xl">{tier.stat}</span>
-                <span className="font-inter text-white/40 text-xs">{tier.statLabel}</span>
+                <span
+                  className="font-bebas text-white"
+                  style={{ fontSize: '1.35rem', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
+                >
+                  {tier.stat}
+                </span>
+                <span
+                  className="font-inter text-white/60"
+                  style={{ fontSize: '0.75rem', textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}
+                >
+                  {tier.statLabel}
+                </span>
               </div>
               <span 
                 onClick={() => navigate('/leasing')}
-                className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer"
+                className="font-inter text-gold tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer"
+                style={{ fontSize: '0.8rem', textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}
               >
                 {tier.cta}
               </span>

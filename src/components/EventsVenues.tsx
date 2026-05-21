@@ -124,11 +124,6 @@ export default function EventsVenues() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-          {/* Badge */}
-          <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="font-inter text-white text-[10px] tracking-widest uppercase">LIVE NOW</span>
-          </div>
 
           {/* Bottom content */}
           <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
@@ -167,11 +162,6 @@ export default function EventsVenues() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-          {/* Badge */}
-          <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-green-500" />
-            <span className="font-inter text-white text-[10px] tracking-widest uppercase">AVAILABLE</span>
-          </div>
 
           {/* Bottom content */}
           <div className="absolute bottom-0 left-0 right-0 p-6 z-10">

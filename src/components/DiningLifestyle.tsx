@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useCallback } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { lenisInstance } from '../main'
 
 const diningCategories = [
   { label: 'FINE DINING', name: 'Signature Restaurant Row', body: 'Full-service, reservation-driven dining.' },
@@ -142,13 +143,13 @@ export default function DiningLifestyle() {
             ))}
           </div>
 
-          <a
-            href="#close"
+          <button
+            onClick={() => lenisInstance?.scrollTo('#close', { duration: 1.2, easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2 })}
             data-reveal
             className="mt-5 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-2.5 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             Explore F&amp;B Leasing Opportunities
-          </a>
+          </button>
         </div>
       </div>
 
@@ -202,13 +203,13 @@ export default function DiningLifestyle() {
             ))}
           </div>
 
-          <a
-            href="#close"
+          <button
+            onClick={() => lenisInstance?.scrollTo('#close', { duration: 1.2, easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2 })}
             data-reveal
             className="mt-5 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-2.5 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             Book the Dream Live Centre
-          </a>
+          </button>
         </div>
 
         {/* Right — Image */}
