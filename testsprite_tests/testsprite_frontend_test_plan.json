@@ -1,0 +1,773 @@
+[
+  {
+    "id": "TC001",
+    "title": "Experience the opening story on first load",
+    "description": "A prospective visitor can open the landing page, experience the cinematic intro, and reach the beginning of the property story with the main presentation visible.",
+    "category": "Scroll-Based Storytelling",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the opening hero presentation is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to continue the story"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the next major property story section is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Scroll through the full property story from the opening",
+    "description": "Verifies that a user can move through the landing page storytelling flow and reach the later sections without losing continuity.",
+    "category": "Cinematic Opening",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the page to continue the story"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify multiple story sections are displayed in sequence"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the presentation remains coherent while progressing through the deck"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Open the story on a fresh load and reach a business section",
+    "description": "This test verifies that a user can load the deck from the landing page and immediately reach a core business section, supporting first-session evaluation of the property.",
+    "category": "Attractions and Entertainment",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the attractions and entertainment section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the attractions and entertainment content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page presentation remains usable from first load"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Jump directly to the retail leasing section",
+    "description": "A retail tenant can use section navigation to jump straight to the retail leasing content and review the leasing opportunity.",
+    "category": "Non-Linear Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the retail leasing section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the retail leasing section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify tenant opportunity content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Explore the attractions and entertainment section",
+    "description": "This test verifies that a user can open the attractions and entertainment section and see experiential content that positions the property beyond retail.",
+    "category": "Attractions and Entertainment",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the attractions and entertainment section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the attractions and entertainment content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify experiential destination storytelling is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Review event hosting potential in the events section",
+    "description": "An event promoter can open the events and platform section and confirm the property is positioned for large-scale activations and bookings.",
+    "category": "Events and Platform",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the events and platform section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the events and platform storytelling is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify venue and activation potential content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Open the luxury positioning section and review premium fit",
+    "description": "This test verifies that a user can jump to the luxury positioning section from the landing page and see the premium brand story needed to assess luxury retail fit.",
+    "category": "Luxury Positioning",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the luxury positioning content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify premium brand storytelling is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Explore the property story by scrolling through the deck",
+    "description": "A visitor can scroll through the presentation and progressively discover the property story sections without losing the narrative flow.",
+    "category": "Scroll-Based Storytelling",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to continue through the page"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to continue through the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify multiple property story sections are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the presentation remains coherent as the page scrolls"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Evaluate tenant mix and growth signals in retail leasing",
+    "description": "Verifies that the retail leasing section presents the supporting business information needed to assess fit and growth potential.",
+    "category": "Retail Leasing",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the retail leasing section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll within the retail leasing section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify tenant mix and growth information are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the leasing opportunity can be evaluated from the section content"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Open the events section and review activation potential",
+    "description": "Verifies that a user can jump to Events and Platform and understand the venue and activation opportunity for partnerships or promotions.",
+    "category": "Events and Platform",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the events and platform section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the events and platform section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify venue and activation potential content is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Compare the property’s premium positioning with lifestyle appeal",
+    "description": "A brand partner can move between the why this property, luxury positioning, and dining and lifestyle sections to evaluate whether the destination fits a premium concept.",
+    "category": "Scroll-Based Storytelling",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the why this property section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify premium brand storytelling is visible across the sections"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Move from luxury positioning into dining and lifestyle",
+    "description": "This test verifies that a user can navigate between premium-oriented sections and continue into dining and lifestyle content without losing the presentation context.",
+    "category": "Dining and Lifestyle",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify lifestyle and food storytelling is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Review location access and audience scale in the property overview",
+    "description": "Verifies that the property overview section presents the location, access, scale, and audience information used to judge the opportunity.",
+    "category": "Why This Property",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the property overview section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the property overview section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify location and access information are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify scale and audience data are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Open dining and lifestyle content directly from the landing page",
+    "description": "This test verifies that a user can jump directly to the dining and lifestyle section and review it as a destination driver rather than a secondary amenity.",
+    "category": "Dining and Lifestyle",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify dining-focused destination storytelling is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Open the deck non-linearly and finish with a smooth presentation",
+    "description": "A stakeholder can browse the deck in a non-linear order, switching between scroll-based discovery and navigation jumps while the presentation stays readable and cohesive.",
+    "category": "Non-Linear Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to continue through the page"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the why this property section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to continue through the page"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the events and platform section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify multiple major sections are accessible in one session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the presentation remains smooth and coherent"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Move between property story sections to compare positioning",
+    "description": "Verifies that a user can navigate non-linearly between Why This Property, Luxury Positioning, and Dining and Lifestyle to compare the premium brand story.",
+    "category": "Why This Property",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the property overview section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the luxury positioning section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the premium positioning story is maintained across the section changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle content is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC017",
+    "title": "Scroll through the landing page story after opening the deck",
+    "description": "This test verifies that a user can experience the introductory story and continue scrolling through the presentation smoothly to understand the property narrative.",
+    "category": "Luxury Positioning",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down through the presentation"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down through the presentation again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify multiple story sections are displayed during the journey"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deck presents a continuous property story"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC018",
+    "title": "Move from retail leasing to another section of interest",
+    "description": "A visitor can jump between sections non-linearly and review a different part of the deck without restarting the presentation.",
+    "category": "Non-Linear Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the retail leasing section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the events and platform section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the events and platform section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deck content changes to the new section"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "Move from attractions and entertainment to another section",
+    "description": "This test verifies that a user can continue navigating after viewing attractions and entertainment, confirming the deck remains coherent across section changes.",
+    "category": "Attractions and Entertainment",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the attractions and entertainment section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the luxury positioning content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the presentation remains navigable across sections"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "Continue exploring after reviewing events and platform",
+    "description": "A visitor can move from the events section to another part of the deck and continue comparing use cases without interruption.",
+    "category": "Events and Platform",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the events and platform section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deck remains navigable after section switching"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Handle direct load of the landing page and continue exploring",
+    "description": "Verifies that opening the landing page directly still presents the deck correctly and supports continued navigation through the story.",
+    "category": "Cinematic Opening",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page loads with the opening experience"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the page to continue exploring"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify section navigation and storytelling content remain available"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Read through premium and lifestyle sections in a non-linear path",
+    "description": "This test verifies that a user can jump between luxury positioning, dining and lifestyle, and attractions and entertainment in a non-linear order while the deck continues to present the expected story.",
+    "category": "Luxury Positioning",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the attractions and entertainment section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify section navigation remains coherent"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Use section navigation repeatedly without losing context",
+    "description": "This test verifies that a user can switch between the major sections multiple times and still land on the expected content each time.",
+    "category": "Dining and Lifestyle",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the luxury positioning section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dining and lifestyle content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify repeated navigation works consistently"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC024",
+    "title": "Keep the deck usable during rapid section changes",
+    "description": "Verifies that repeated navigation between sections still leaves the presentation readable and coherent for exploratory browsing.",
+    "category": "Cinematic Opening",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the retail leasing section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the events and platform section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control for the property overview section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the latest selected section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the content remains coherent after repeated navigation"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC025",
+    "title": "Handle rapid repeated section changes without losing the deck",
+    "description": "A user can click between section navigation targets repeatedly and still end on a valid section with the presentation intact.",
+    "category": "Non-Linear Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the retail leasing section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the events and platform section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the retail leasing section"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation link for the dining and lifestyle section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a valid content section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deck content remains intact after repeated navigation"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC026",
+    "title": "Present a stable story across an unusual viewport",
+    "description": "Verifies that the landing page storytelling and section navigation remain usable when the page is viewed in a smaller browser size.",
+    "category": "Cinematic Opening",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Resize the browser to a small viewport"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the landing page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the opening experience is still displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify section content remains readable and navigable"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC027",
+    "title": "Load the landing page in a reduced-motion-friendly way",
+    "description": "A visitor opening the landing page on a browser with motion sensitivity can still access the presentation and its core content without the experience breaking.",
+    "category": "Scroll-Based Storytelling",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page content is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the opening story remains readable and usable"
+      }
+    ],
+    "priority": "Low"
+  }
+]

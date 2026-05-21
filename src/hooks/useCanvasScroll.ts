@@ -79,9 +79,7 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
         snapTo: [0.000, 0.201, 0.425, 0.584, 0.801, 0.999],
         duration: { min: 0.6, max: 1.2 },
         delay: 0.05,
-        ease: "power1.inOut",
-        onStart: () => lenisInstance?.stop(),
-        onComplete: () => lenisInstance?.start(),
+        ease: "power1.inOut"
       },
       onUpdate: (self) => {
         progressRef.current = self.progress
@@ -126,14 +124,23 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
     drawFnRef.current = draw
 
     let lastFrameIndex = -1
+    const getFrame = (index: number, images: HTMLImageElement[]): HTMLImageElement | null => {
+      if (images[index]?.complete) return images[index];
+      // Walk back to nearest loaded frame
+      for (let i = index - 1; i >= 0; i--) {
+        if (images[i]?.complete) return images[i];
+      }
+      return null;
+    };
+
     const loop = () => {
       const progress = progressRef.current
       const frameIndex = Math.round(progress * (totalFramesRef.current - 1))
       const images = getImagesRef.current()
 
       if (frameIndex !== lastFrameIndex) {
-        const frame = images[frameIndex]
-        if (frame?.complete) {
+        const frame = getFrame(frameIndex, images)
+        if (frame) {
           draw(frame)
           lastFrameIndex = frameIndex
         }

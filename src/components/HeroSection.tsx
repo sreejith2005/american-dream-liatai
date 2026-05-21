@@ -18,10 +18,10 @@ export default function HeroSection() {
 
   // Start preloading Section 3 frames immediately — Hero gives 10–15s of runway
   useEffect(() => {
-    // Phase 1: critical frames (1–86) right away
+    // Phase 2: critical frames (1–100) right away
     startCriticalPreload()
-    // Phase 2: full preload after 2s so it doesn't compete with Hero video buffering
-    const timer = setTimeout(() => startPreload(), 2000)
+    // Phase 3: full preload after 1.5s so it doesn't compete with Hero video buffering
+    const timer = setTimeout(() => startPreload(), 1500)
     return () => clearTimeout(timer)
   }, [])
 

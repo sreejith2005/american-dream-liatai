@@ -1,0 +1,38 @@
+version: "2"
+type: frontend
+tech_stack:
+  - typescript
+  - react
+  - vite
+  - tailwindcss
+  - framer-motion
+  - gsap
+routes:
+  - path: /
+    file: src/App.tsx
+    auth_required: false
+    description: Main landing page for American Dream Leasing
+features:
+  - name: Navigation
+    description: Section navigation
+    files:
+      - src/components/SectionNav.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll down to see different sections
+      - Click on navigation links to scroll to specific sections
+    api_calls: []
+    auth_required: false
+  - name: Landing Sections
+    description: Various sections of the landing page
+    files:
+      - src/App.tsx
+      - src/components/HeroSection.tsx
+      - src/components/RetailLeasing.tsx
+    entry_route: /
+    user_interactions:
+      - View content
+      - Scroll through animations
+    api_calls: []
+    auth_required: false
+known_limitations: []

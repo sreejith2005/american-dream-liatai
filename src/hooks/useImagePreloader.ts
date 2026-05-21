@@ -16,7 +16,7 @@ import { useState, useEffect } from 'react'
 
 // ── Frame config ────────────────────────────────────────────────────────────
 export const TOTAL_FRAMES = 428
-const CRITICAL_FRAMES = 86 // Clip 1 (Entry) — first 86 frames
+const CRITICAL_FRAMES = 100
 const BASE_PATH = '/assets/section3frames'
 const BATCH_SIZE = 30
 const CRITICAL_BATCH_SIZE = 20
@@ -43,11 +43,13 @@ function notifyListeners() {
 
 /** Load a single image — always resolves (errors counted, never hangs) */
 function loadSingleImage(index: number): Promise<void> {
+  if (_images[index]) return Promise.resolve()
+
   return new Promise((resolve) => {
     const img = new Image()
-    img.src = getFramePath(index + 1) // frames are 1-indexed
+    _images[index] = img // Set immediately to prevent duplicate requests
+
     const onDone = () => {
-      _images[index] = img
       _loadedCount++
       if (_loadedCount === TOTAL_FRAMES) {
         _isReady = true
@@ -57,11 +59,28 @@ function loadSingleImage(index: number): Promise<void> {
     }
     img.onload = onDone
     img.onerror = onDone
+    img.src = getFramePath(index + 1) // frames are 1-indexed
   })
 }
 
+let _bootStarted = false
+
 /**
- * Phase 1 — Load only the first 86 frames (Clip 1: Entry) in batches of 20.
+ * Phase 1 — Load frames 1–30 immediately in a single batch.
+ */
+export function startBootPreload(): Promise<void> {
+  if (_bootStarted) return Promise.resolve()
+  _bootStarted = true
+
+  const batch: Promise<void>[] = []
+  for (let i = 0; i < 30; i++) {
+    batch.push(loadSingleImage(i))
+  }
+  return Promise.all(batch).then(() => {})
+}
+
+/**
+ * Phase 2 — Load frames 1-100 in parallel batches of 20.
  * Returns a promise that resolves when all critical frames are loaded.
  * Safe to call multiple times — only runs once.
  */
@@ -76,7 +95,7 @@ export function startCriticalPreload(): Promise<void> {
       for (let i = batchStart; i < batchEnd; i++) {
         batch.push(loadSingleImage(i))
       }
-      await Promise.all(batch)
+      if (batch.length > 0) await Promise.all(batch)
     }
     _criticalResolve?.()
   })()
@@ -85,7 +104,7 @@ export function startCriticalPreload(): Promise<void> {
 }
 
 /**
- * Phase 2 — Load all 428 frames in batches of 30.
+ * Phase 3 — Load all 428 frames in batches of 30.
  * Safe to call multiple times — only runs once.
  * Skips frames already loaded by startCriticalPreload().
  * Does NOT call ScrollTrigger.refresh().
@@ -98,8 +117,6 @@ export async function startPreload(): Promise<void> {
     const batchEnd = Math.min(batchStart + BATCH_SIZE, TOTAL_FRAMES)
     const batch: Promise<void>[] = []
     for (let i = batchStart; i < batchEnd; i++) {
-      // Skip frames already loaded by critical preload
-      if (_images[i]?.complete) continue
       batch.push(loadSingleImage(i))
     }
     if (batch.length > 0) await Promise.all(batch)
@@ -142,3 +159,6 @@ export function useImagePreloader(): PreloaderHookResult {
     isReady: _isReady,
   }
 }
+
+// Phase 1: Boot preload runs immediately upon module initialization
+startBootPreload();

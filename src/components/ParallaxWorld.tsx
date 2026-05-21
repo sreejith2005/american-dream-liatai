@@ -154,14 +154,12 @@ export default function ParallaxWorld() {
     onProgressUpdate: handleProgressUpdate,
   })
 
-  // Draw frame 1 as soon as critical frames are ready — canvas is never blank
+  // Draw frame 1 immediately if available — canvas is never blank
   useEffect(() => {
-    startCriticalPreload().then(() => {
-      const images = getPreloadedImages()
-      if (images[0] && canvasRef.current && drawFnRef.current) {
-        drawFnRef.current(images[0])
-      }
-    })
+    const images = getPreloadedImages()
+    if (images.length > 0 && canvasRef.current && drawFnRef.current && images[0]?.complete) {
+      drawFnRef.current(images[0])
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -175,8 +173,8 @@ export default function ParallaxWorld() {
         <div
           className="absolute inset-0 z-50 bg-black flex flex-col items-center justify-center"
           style={{
-            opacity: isReady ? 0 : 1,
-            pointerEvents: isReady ? 'none' : 'auto',
+            opacity: loadingProgress < 15 ? 1 : 0,
+            pointerEvents: loadingProgress < 15 ? 'auto' : 'none',
             transition: 'opacity 600ms ease',
           }}
         >
@@ -232,6 +230,7 @@ export default function ParallaxWorld() {
               <a
                 ref={ctaRef}
                 href="#"
+                onClick={(e) => e.preventDefault()}
                 className="mt-2 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300"
                 style={{ opacity: 0, pointerEvents: 'none' }}
                 data-cursor-hover

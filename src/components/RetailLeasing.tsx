@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useNavigate } from 'react-router-dom'
 
 const tiers = [
   {
@@ -35,6 +36,7 @@ const tiers = [
 
 export default function RetailLeasing() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -158,7 +160,10 @@ export default function RetailLeasing() {
                 <span className="font-bebas text-white text-xl">{tier.stat}</span>
                 <span className="font-inter text-white/40 text-xs">{tier.statLabel}</span>
               </div>
-              <span className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer">
+              <span 
+                onClick={() => navigate('/leasing')}
+                className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer"
+              >
                 {tier.cta}
               </span>
             </div>
@@ -173,18 +178,18 @@ export default function RetailLeasing() {
           Talk to our leasing team.
         </h3>
         <div className="flex items-center justify-center gap-4">
-          <a
-            href="#close"
+          <button
+            onClick={() => navigate('/leasing')}
             className="bg-gold text-black font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold/90 transition-all duration-300 cursor-pointer"
           >
             Schedule a Site Visit
-          </a>
-          <a
-            href="#close"
+          </button>
+          <button
+            onClick={() => navigate('/leasing')}
             className="border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             Download Leasing Pack
-          </a>
+          </button>
         </div>
       </div>
     </section>

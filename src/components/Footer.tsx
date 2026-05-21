@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom'
+import { useModal } from '../App'
+
 const linkColumns = [
   {
     title: 'Explore',
@@ -14,6 +17,24 @@ const linkColumns = [
 ]
 
 export default function Footer() {
+  const navigate = useNavigate()
+  const openModal = useModal()
+
+  const handleLinkClick = (e: React.MouseEvent, link: string) => {
+    e.preventDefault()
+    const l = link.toLowerCase()
+    if (l === 'contact') {
+      openModal('general')
+    } else if (l === 'leasing') {
+      navigate('/leasing')
+    } else if (['americandream.com', 'instagram', 'linkedin'].includes(l)) {
+      // External links - normally would open in new tab
+      // window.open('https://' + l, '_blank')
+    } else {
+      navigate(`/#${l}`)
+    }
+  }
+
   return (
     <footer className="w-full bg-charcoal py-16 px-8 md:px-12">
       {/* Top row */}
@@ -38,7 +59,8 @@ export default function Footer() {
               {col.links.map((link) => (
                 <a
                   key={link}
-                  href="#"
+                  href={`#${link.toLowerCase()}`}
+                  onClick={(e) => handleLinkClick(e, link)}
                   className="font-inter text-white/40 text-xs hover:text-white/80 transition-colors duration-300 cursor-pointer"
                 >
                   {link}

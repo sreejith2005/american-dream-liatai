@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useModal } from '../App'
 
 const eventTags = [
   'CONCERTS',
@@ -17,6 +18,7 @@ const marqueeText =
 
 export default function EventsVenues() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const openModal = useModal()
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -145,7 +147,7 @@ export default function EventsVenues() {
               <span className="w-px h-3 bg-white/20" />
               <span className="font-inter text-white/60 text-xs">Year-round programming</span>
             </div>
-            <span className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer">
+            <span onClick={() => openModal('events')} className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer">
               Book LITEPAC →
             </span>
           </div>
@@ -188,7 +190,7 @@ export default function EventsVenues() {
               <span className="w-px h-3 bg-white/20" />
               <span className="font-inter text-white/60 text-xs">Product launches</span>
             </div>
-            <span className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer">
+            <span onClick={() => openModal('events')} className="font-inter text-gold text-xs tracking-widest uppercase hover:text-white transition-colors duration-300 cursor-pointer">
               View Expo Availability →
             </span>
           </div>
@@ -220,18 +222,18 @@ export default function EventsVenues() {
       <div className="mt-20 border-t border-white/10 pt-12 text-center">
         <h3 className="font-cormorant text-white text-[2rem]">Your next event belongs here.</h3>
         <div className="flex items-center justify-center gap-4 mt-6">
-          <a
-            href="#close"
+          <button
+            onClick={() => openModal('events')}
             className="bg-gold text-black font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold/90 transition-all duration-300 cursor-pointer"
           >
             Talk to Our Events Team
-          </a>
-          <a
-            href="#close"
+          </button>
+          <button
+            onClick={() => openModal('events')}
             className="border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             View Full Calendar
-          </a>
+          </button>
         </div>
       </div>
     </section>

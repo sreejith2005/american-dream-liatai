@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useModal } from '../App'
 
 const audienceStats = [
   { value: '40M+', label: 'Annual Visitors' },
@@ -46,6 +47,7 @@ const tiers = [
 
 export default function Sponsorship() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const openModal = useModal()
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -171,12 +173,12 @@ export default function Sponsorship() {
                 </li>
               ))}
             </ul>
-            <a
-              href="#close"
-              className="mt-6 block text-center border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
+            <button
+              onClick={() => openModal('sponsorship')}
+              className="w-full mt-6 block text-center border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
             >
               Inquire
-            </a>
+            </button>
           </div>
         ))}
       </div>
@@ -187,12 +189,12 @@ export default function Sponsorship() {
         <p className="font-inter text-charcoal/60 text-sm">
           Ready to put your brand inside 40 million experiences?
         </p>
-        <a
-          href="#close"
+        <button
+          onClick={() => openModal('sponsorship')}
           className="mt-4 inline-block bg-gold text-black font-inter text-xs tracking-widest uppercase px-8 py-4 hover:bg-gold/90 transition-all duration-300 cursor-pointer"
         >
           Start a Sponsorship Conversation
-        </a>
+        </button>
       </div>
     </section>
   )

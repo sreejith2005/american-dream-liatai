@@ -1,0 +1,17 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "executionArgs": {
+    "projectName": "liatai-americandream",
+    "projectPath": "c:\\Users\\user\\Downloads\\liatai-americandream",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-ASqkvAjPprNerqaWl-lCjgEcSjaZ_3gRtQHh6IGybQCYSE-fzS88g1hBJEf2QsxCtVl8bIKlVE_E4RQjyzVhQgl6wVcLBzMZMUj8lQoqVavqEejvYdGZTFdeyrS_gilZJmo"
+    }
+  },
+  "serverPort": 63429
+}

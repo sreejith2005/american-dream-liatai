@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useModal } from '../App'
 
 const ctaCards = [
   {
@@ -49,6 +50,7 @@ const ctaCards = [
 
 export default function TheClose() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const openModal = useModal()
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -149,12 +151,12 @@ export default function TheClose() {
               <p className="font-inter text-white/60 text-sm mt-3 leading-relaxed">
                 {card.body}
               </p>
-              <a
-                href="#"
-                className="mt-6 block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 group-hover:bg-gold group-hover:text-black transition-all duration-300 cursor-pointer"
+              <button
+                onClick={() => openModal(card.cta)}
+                className="w-full mt-6 block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 group-hover:bg-gold group-hover:text-black transition-all duration-300 cursor-pointer"
               >
                 {card.cta}
-              </a>
+              </button>
             </div>
           ))}
         </div>
