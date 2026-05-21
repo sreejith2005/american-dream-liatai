@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
+import { startCriticalPreload, startPreload } from '../hooks/useImagePreloader'
 
 const introLines = [
   { text: '20 Million People.', delay: 0.5 },
@@ -14,6 +15,15 @@ export default function HeroSection() {
   const heroContentRef = useRef<HTMLDivElement>(null)
   const headlineL1Ref = useRef<HTMLDivElement>(null)
   const headlineL2Ref = useRef<HTMLDivElement>(null)
+
+  // Start preloading Section 3 frames immediately — Hero gives 10–15s of runway
+  useEffect(() => {
+    // Phase 1: critical frames (1–86) right away
+    startCriticalPreload()
+    // Phase 2: full preload after 2s so it doesn't compete with Hero video buffering
+    const timer = setTimeout(() => startPreload(), 2000)
+    return () => clearTimeout(timer)
+  }, [])
 
   useGSAP(() => {
     const tl = gsap.timeline()

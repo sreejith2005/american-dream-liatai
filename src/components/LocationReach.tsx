@@ -17,21 +17,23 @@ const catchment = [
   { distance: '30 MI', desc: '~20 million — the full NYC tri-state reach' },
 ]
 
+/* City positions — geographically approximate relative to American Dream (center)
+   American Dream is at center (50,50). NYC is ~15mi ENE, Jersey City ~10mi E,
+   Newark ~10mi SSW, Brooklyn ~20mi ESE */
 const cities = [
-  { name: 'New York City', x: 72, y: 32, size: 5 },
-  { name: 'Newark', x: 40, y: 55, size: 3.5 },
-  { name: 'Jersey City', x: 62, y: 40, size: 3 },
-  { name: 'Brooklyn', x: 80, y: 55, size: 3.5 },
+  { name: 'New York City', x: 73, y: 28, size: 4.5 },
+  { name: 'Newark', x: 38, y: 68, size: 3 },
+  { name: 'Jersey City', x: 66, y: 42, size: 2.8 },
+  { name: 'Brooklyn', x: 78, y: 58, size: 3 },
 ]
 
 const transit = [
   {
     label: 'Bus',
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="18" height="14" rx="2" />
         <line x1="3" y1="10" x2="21" y2="10" />
-        <line x1="12" y1="3" x2="12" y2="10" />
         <circle cx="7" cy="20" r="1.5" />
         <circle cx="17" cy="20" r="1.5" />
         <line x1="7" y1="17" x2="7" y2="18.5" />
@@ -42,7 +44,7 @@ const transit = [
   {
     label: 'Highway',
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 20L8 4h8l4 16" />
         <line x1="12" y1="6" x2="12" y2="8" />
         <line x1="12" y1="11" x2="12" y2="13" />
@@ -53,7 +55,7 @@ const transit = [
   {
     label: 'Rail',
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="4" y="2" width="16" height="16" rx="3" />
         <line x1="4" y1="10" x2="20" y2="10" />
         <line x1="12" y1="2" x2="12" y2="10" />
@@ -67,7 +69,7 @@ const transit = [
   {
     label: '26K Parking',
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="18" height="18" rx="2" />
         <path d="M9 17V7h4a3 3 0 0 1 0 6H9" />
       </svg>
@@ -77,6 +79,7 @@ const transit = [
 
 export default function LocationReach() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const mapRef = useRef<HTMLDivElement>(null)
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -101,21 +104,18 @@ export default function LocationReach() {
         )
       }
 
-      // Rings animate in
-      const rings = sectionRef.current?.querySelectorAll('[data-ring]')
-      if (rings) {
+      // Animate the entire map container as one unit — prevents individual ring misalignment
+      if (mapRef.current) {
         gsap.fromTo(
-          rings,
-          { scale: 0, opacity: 0 },
+          mapRef.current,
+          { scale: 0.6, opacity: 0 },
           {
             scale: 1,
             opacity: 1,
-            duration: 0.8,
+            duration: 1.2,
             ease: 'power3.out',
-            stagger: 0.15,
-            transformOrigin: 'center center',
             scrollTrigger: {
-              trigger: rings[0],
+              trigger: mapRef.current,
               start: 'top 75%',
               once: true,
             },
@@ -200,118 +200,87 @@ export default function LocationReach() {
 
         {/* Right column — Map visualization (58%) */}
         <div className="w-full md:w-[58%] flex flex-col items-center">
-          <div className="relative w-full max-w-[560px] aspect-square">
-            {/* SVG rings + center */}
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-              {/* Subtle grid lines for depth */}
-              <line x1="50" y1="5" x2="50" y2="95" stroke="white" strokeWidth="0.08" opacity="0.1" />
-              <line x1="5" y1="50" x2="95" y2="50" stroke="white" strokeWidth="0.08" opacity="0.1" />
+          <div ref={mapRef} className="relative w-full max-w-[560px] aspect-square">
+            <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              {/* Subtle crosshair guides */}
+              <line x1="50" y1="6" x2="50" y2="94" stroke="white" strokeWidth="0.06" opacity="0.06" />
+              <line x1="6" y1="50" x2="94" y2="50" stroke="white" strokeWidth="0.06" opacity="0.06" />
 
-              {/* Ring 3 — 30mi */}
-              <circle
-                data-ring
-                cx="50" cy="50" r="44"
-                fill="none" stroke="#C9A84C" strokeWidth="0.25"
-                opacity="0.15"
-                strokeDasharray="2 1.5"
-              />
-              {/* Ring 2 — 15mi */}
-              <circle
-                data-ring
-                cx="50" cy="50" r="29"
-                fill="none" stroke="#C9A84C" strokeWidth="0.25"
-                opacity="0.3"
-                strokeDasharray="2 1.5"
-              />
-              {/* Ring 1 — 5mi */}
-              <circle
-                data-ring
-                cx="50" cy="50" r="14"
-                fill="none" stroke="#C9A84C" strokeWidth="0.25"
-                opacity="0.5"
-              />
+              {/* Concentric distance rings */}
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#C9A84C" strokeWidth="0.2" opacity="0.12" strokeDasharray="1.5 1.2" />
+              <circle cx="50" cy="50" r="28" fill="none" stroke="#C9A84C" strokeWidth="0.2" opacity="0.25" strokeDasharray="1.5 1.2" />
+              <circle cx="50" cy="50" r="14" fill="none" stroke="#C9A84C" strokeWidth="0.25" opacity="0.4" />
 
-              {/* Radial fill for innermost ring */}
-              <circle
-                cx="50" cy="50" r="14"
-                fill="#C9A84C" opacity="0.04"
-              />
+              {/* Subtle fill for innermost ring */}
+              <circle cx="50" cy="50" r="14" fill="#C9A84C" opacity="0.03" />
+              {/* Subtle fill for mid ring */}
+              <circle cx="50" cy="50" r="28" fill="#C9A84C" opacity="0.015" />
 
-              {/* Connection lines from center to cities */}
-              {cities.map((city) => (
-                <line
-                  key={`line-${city.name}`}
-                  x1="50" y1="50"
-                  x2={city.x} y2={city.y}
-                  stroke="#C9A84C"
-                  strokeWidth="0.15"
-                  opacity="0.2"
-                  strokeDasharray="1 1"
-                />
-              ))}
+              {/* Ring distance labels — placed just outside each ring on the right */}
+              <text x="65" y="49" textAnchor="start" fill="#C9A84C" opacity="0.4" fontSize="1.8" fontFamily="Inter, sans-serif" letterSpacing="0.05em">
+                5 mi
+              </text>
+              <text x="79.5" y="49" textAnchor="start" fill="#C9A84C" opacity="0.3" fontSize="1.8" fontFamily="Inter, sans-serif" letterSpacing="0.05em">
+                15 mi
+              </text>
+              <text x="93" y="49" textAnchor="end" fill="#C9A84C" opacity="0.2" fontSize="1.8" fontFamily="Inter, sans-serif" letterSpacing="0.05em">
+                30 mi
+              </text>
 
-              {/* City dots */}
+              {/* Population labels — placed just inside each ring at bottom */}
+              <text x="50" y="65" textAnchor="middle" fill="white" opacity="0.2" fontSize="1.6" fontFamily="Inter, sans-serif">
+                3M people
+              </text>
+              <text x="50" y="79" textAnchor="middle" fill="white" opacity="0.15" fontSize="1.6" fontFamily="Inter, sans-serif">
+                12M people
+              </text>
+              <text x="50" y="93" textAnchor="middle" fill="white" opacity="0.1" fontSize="1.6" fontFamily="Inter, sans-serif">
+                20M people
+              </text>
+
+              {/* City dots with labels */}
               {cities.map((city) => (
                 <g key={city.name}>
-                  {/* Glow */}
-                  <circle
-                    cx={city.x} cy={city.y}
-                    r={city.size / 2 + 1}
-                    fill="#C9A84C"
-                    opacity="0.08"
-                  />
-                  <circle
-                    cx={city.x} cy={city.y}
-                    r={city.size / 2}
-                    fill="#C9A84C"
-                    opacity="0.7"
-                  />
+                  {/* Soft glow */}
+                  <circle cx={city.x} cy={city.y} r={city.size / 2 + 1.5} fill="#C9A84C" opacity="0.06" />
+                  {/* Dot */}
+                  <circle cx={city.x} cy={city.y} r={city.size / 2} fill="#C9A84C" opacity="0.75" />
+                  {/* Label */}
                   <text
                     x={city.x}
-                    y={city.y - city.size / 2 - 2}
+                    y={city.y - city.size / 2 - 2.5}
                     textAnchor="middle"
                     fill="white"
-                    opacity="0.6"
-                    fontSize="2.2"
+                    opacity="0.55"
+                    fontSize="2"
                     fontFamily="Inter, sans-serif"
                     fontWeight="500"
-                    letterSpacing="0.05em"
+                    letterSpacing="0.04em"
                   >
                     {city.name}
                   </text>
                 </g>
               ))}
 
-              {/* Center dot — American Dream */}
-              <circle cx="50" cy="50" r="3" fill="#C9A84C" opacity="0.15" />
+              {/* Center — American Dream */}
+              <circle cx="50" cy="50" r="3.5" fill="#C9A84C" opacity="0.12" />
               <circle cx="50" cy="50" r="2.5" fill="#C9A84C" className="location-pulse" />
               <text
-                x="50" y="45"
+                x="50" y="45.5"
                 textAnchor="middle"
                 fill="#C9A84C"
-                fontSize="2.5"
+                fontSize="2.2"
                 fontFamily="Inter, sans-serif"
                 fontWeight="700"
-                letterSpacing="0.08em"
+                letterSpacing="0.1em"
               >
                 AMERICAN DREAM
-              </text>
-
-              {/* Ring distance labels — positioned along right side */}
-              <text x="65" y="50.5" textAnchor="start" fill="white" opacity="0.3" fontSize="1.8" fontFamily="Inter, sans-serif">
-                5 mi
-              </text>
-              <text x="80" y="50.5" textAnchor="start" fill="white" opacity="0.22" fontSize="1.8" fontFamily="Inter, sans-serif">
-                15 mi
-              </text>
-              <text x="95" y="50.5" textAnchor="end" fill="white" opacity="0.15" fontSize="1.8" fontFamily="Inter, sans-serif">
-                30 mi
               </text>
             </svg>
           </div>
 
           {/* Transit icons */}
-          <div className="mt-4 flex gap-8 justify-center">
+          <div className="mt-2 flex gap-8 justify-center">
             {transit.map((t) => (
               <span key={t.label} className="font-inter text-white/40 text-xs tracking-widest flex items-center gap-2 uppercase">
                 <span className="text-gold/60">{t.icon}</span>

@@ -1,9 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import MarqueeStrip from './MarqueeStrip'
-import { startPreload } from '../hooks/useImagePreloader'
 
 interface StatBlock {
   label: string
@@ -55,21 +54,6 @@ export default function StatsSection() {
   const numberRefs = useRef<(HTMLSpanElement | null)[]>([])
   const borderRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Begin frame preloading when Stats section becomes 10% visible
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          startPreload()
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    const el = document.getElementById('stats-section')
-    if (el) observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger)

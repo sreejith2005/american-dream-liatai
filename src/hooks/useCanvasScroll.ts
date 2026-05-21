@@ -22,6 +22,8 @@ interface UseCanvasScrollOptions {
 interface UseCanvasScrollReturn {
   loadingProgress: number
   isReady: boolean
+  /** Ref to the draw function — available after mount. Use to draw frame 1 early. */
+  drawFnRef: React.RefObject<((img: HTMLImageElement) => void) | null>
 }
 
 export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrollReturn {
@@ -38,6 +40,7 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
   const progressRef = useRef(0)
   const rafId = useRef(0)
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
+  const drawFnRef = useRef<((img: HTMLImageElement) => void) | null>(null)
   // Stable refs so the useEffect closure never goes stale (deps = [])
   const onProgressUpdateRef = useRef(onProgressUpdate)
   onProgressUpdateRef.current = onProgressUpdate
@@ -56,11 +59,10 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
     const ctx = canvas.getContext('2d', { alpha: false })
     if (!ctx) return
 
-    // DPR-aware canvas sizing
+    // Simple canvas sizing — no DPR scaling to avoid zoom artifacts
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = canvas.offsetWidth * dpr
-      canvas.height = canvas.offsetHeight * dpr
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
     }
     resize()
     window.addEventListener('resize', resize)
@@ -75,9 +77,9 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
       invalidateOnRefresh: true,
       snap: {
         snapTo: [0.000, 0.201, 0.425, 0.584, 0.801, 0.999],
-        duration: { min: 0.4, max: 0.8 },
-        delay: 0.1,
-        ease: "power2.inOut",
+        duration: { min: 0.6, max: 1.2 },
+        delay: 0.05,
+        ease: "power1.inOut",
         onStart: () => lenisInstance?.stop(),
         onComplete: () => lenisInstance?.start(),
       },
@@ -88,26 +90,58 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
       },
     })
 
-    // requestAnimationFrame draw loop — reads from the module-level images
-    // array on every frame.  If a frame isn't loaded yet, it simply skips.
-    let lastFrame = -1
-    const draw = () => {
+    // Letterbox-contain draw — fills viewport proportionally, no cropping
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
+
+    const draw = (img: HTMLImageElement) => {
+      if (!ctx || !canvas) return
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      const imgAspect = img.naturalWidth / img.naturalHeight
+      const canvasAspect = canvas.width / canvas.height
+
+      let drawW: number, drawH: number, drawX: number, drawY: number
+
+      if (imgAspect > canvasAspect) {
+        // image wider than canvas — fit to canvas width, letterbox top/bottom
+        drawW = canvas.width
+        drawH = canvas.width / imgAspect
+        drawX = 0
+        drawY = (canvas.height - drawH) / 2
+      } else {
+        // image taller than canvas — fit to canvas height, pillarbox left/right
+        drawH = canvas.height
+        drawW = canvas.height * imgAspect
+        drawX = (canvas.width - drawW) / 2
+        drawY = 0
+      }
+
+      ctx.filter = 'contrast(1.05) saturate(1.1)'
+      ctx.drawImage(img, drawX, drawY, drawW, drawH)
+      ctx.filter = 'none'
+    }
+
+    // Expose draw function via ref so ParallaxWorld can draw frame 1 early
+    drawFnRef.current = draw
+
+    let lastFrameIndex = -1
+    const loop = () => {
       const progress = progressRef.current
       const frameIndex = Math.round(progress * (totalFramesRef.current - 1))
       const images = getImagesRef.current()
 
-      if (frameIndex !== lastFrame) {
+      if (frameIndex !== lastFrameIndex) {
         const frame = images[frameIndex]
         if (frame?.complete) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
-          ctx.drawImage(frame, 0, 0, canvas.width, canvas.height)
-          lastFrame = frameIndex
+          draw(frame)
+          lastFrameIndex = frameIndex
         }
       }
 
-      rafId.current = requestAnimationFrame(draw)
+      rafId.current = requestAnimationFrame(loop)
     }
-    rafId.current = requestAnimationFrame(draw)
+    rafId.current = requestAnimationFrame(loop)
 
     return () => {
       cancelAnimationFrame(rafId.current)
@@ -118,5 +152,5 @@ export function useCanvasScroll(options: UseCanvasScrollOptions): UseCanvasScrol
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // Mount once only — all values accessed via stable refs
 
-  return { loadingProgress, isReady }
+  return { loadingProgress, isReady, drawFnRef }
 }

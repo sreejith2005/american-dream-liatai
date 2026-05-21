@@ -1,6 +1,6 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
 import { useCanvasScroll } from '../hooks/useCanvasScroll'
-import { useImagePreloader, getPreloadedImages, TOTAL_FRAMES } from '../hooks/useImagePreloader'
+import { useImagePreloader, getPreloadedImages, TOTAL_FRAMES, startCriticalPreload } from '../hooks/useImagePreloader'
 
 const CLIPS = [
   {
@@ -9,6 +9,7 @@ const CLIPS = [
     frameEnd: 61,
     snapProgress: 0.000,
     fadeIn: 0.000,
+    fullyVisible: 0.020,
     fadeOut: 0.160,
     eyebrow: 'AMERICAN DREAM',
     headline: 'Where 20 Million Stories Begin',
@@ -19,8 +20,9 @@ const CLIPS = [
     frameStart: 62,
     frameEnd: 126,
     snapProgress: 0.201,
-    fadeIn: 0.201,
-    fadeOut: 0.360,
+    fadeIn: 0.140,
+    fullyVisible: 0.201,
+    fadeOut: 0.370,
     eyebrow: 'THE DESTINATION',
     headline: '40M+ Visitors. Your Brand at the Center.',
     cta: null as string | null,
@@ -30,8 +32,9 @@ const CLIPS = [
     frameStart: 127,
     frameEnd: 167,
     snapProgress: 0.425,
-    fadeIn: 0.425,
-    fadeOut: 0.540,
+    fadeIn: 0.360,
+    fullyVisible: 0.425,
+    fadeOut: 0.545,
     eyebrow: 'BIG SNOW AMERICAN DREAM',
     headline: "The World's Only Indoor Ski Slope Inside a Mall.",
     cta: null as string | null,
@@ -41,8 +44,9 @@ const CLIPS = [
     frameStart: 168,
     frameEnd: 230,
     snapProgress: 0.584,
-    fadeIn: 0.584,
-    fadeOut: 0.730,
+    fadeIn: 0.520,
+    fullyVisible: 0.584,
+    fadeOut: 0.740,
     eyebrow: 'NICKELODEON UNIVERSE',
     headline: "America's Largest Indoor Theme Park.",
     cta: null as string | null,
@@ -52,22 +56,36 @@ const CLIPS = [
     frameStart: 231,
     frameEnd: 428,
     snapProgress: 0.801,
-    fadeIn: 0.801,
-    fadeOut: 0.940,
+    fadeIn: 0.740,
+    fullyVisible: 0.801,
+    fadeOut: 0.950,
     eyebrow: 'DREAMWORKS WATER PARK',
     headline: 'One Roof. Infinite Possibilities.',
     cta: 'Explore Partnership Opportunities',
   },
 ]
 
-/** Calculate overlay opacity from global progress and per-zone fade boundaries */
-function calcZoneOpacity(progress: number, fadeIn: number, fadeOut: number): number {
+/** Three-stage overlay opacity: ramp in → hold → fade out */
+function calcZoneOpacity(
+  progress: number,
+  fadeIn: number,
+  fullyVisible: number,
+  fadeOut: number,
+): number {
   if (progress < fadeIn || progress > fadeOut) return 0
-  const zoneLength = fadeOut - fadeIn
-  const localProgress = (progress - fadeIn) / zoneLength
-  // Full opacity at the snap point, fade out in the last 20% before next zone
-  if (localProgress > 0.8) return (1 - localProgress) / 0.2
-  return 1
+
+  let opacity = 0
+  if (progress >= fadeIn && progress < fullyVisible) {
+    // fade in stage — ramp from 0 to 1
+    opacity = (progress - fadeIn) / (fullyVisible - fadeIn)
+  } else if (progress >= fullyVisible && progress <= fadeOut) {
+    // hold then fade out stage
+    const holdEnd = fadeOut - (fadeOut - fullyVisible) * 0.3
+    if (progress <= holdEnd) opacity = 1
+    else opacity = 1 - (progress - holdEnd) / (fadeOut - holdEnd)
+  }
+
+  return Math.max(0, Math.min(1, opacity))
 }
 
 export default function ParallaxWorld() {
@@ -92,7 +110,7 @@ export default function ParallaxWorld() {
     CLIPS.forEach((clip, i) => {
       const el = overlayRefs.current[i]
       if (!el) return
-      const opacity = calcZoneOpacity(progress, clip.fadeIn, clip.fadeOut)
+      const opacity = calcZoneOpacity(progress, clip.fadeIn, clip.fullyVisible, clip.fadeOut)
       el.style.opacity = String(opacity)
     })
 
@@ -126,7 +144,7 @@ export default function ParallaxWorld() {
     }
   }, [])
 
-  useCanvasScroll({
+  const { drawFnRef } = useCanvasScroll({
     canvasRef,
     containerRef,
     totalFrames: TOTAL_FRAMES,
@@ -135,6 +153,17 @@ export default function ParallaxWorld() {
     loadingProgress,
     onProgressUpdate: handleProgressUpdate,
   })
+
+  // Draw frame 1 as soon as critical frames are ready — canvas is never blank
+  useEffect(() => {
+    startCriticalPreload().then(() => {
+      const images = getPreloadedImages()
+      if (images[0] && canvasRef.current && drawFnRef.current) {
+        drawFnRef.current(images[0])
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -175,7 +204,10 @@ export default function ParallaxWorld() {
           <canvas
             ref={canvasRef}
             className="w-full h-full block"
-            style={{ filter: 'contrast(1.05) saturate(1.1)' }}
+            style={{
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+            }}
           />
         </div>
 
