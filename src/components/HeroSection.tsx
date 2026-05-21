@@ -90,30 +90,18 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative h-screen w-full bg-black overflow-hidden"
     >
-      {/* YouTube video background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 2,
-            background: 'transparent',
-            pointerEvents: 'auto',
-          }}
-        />
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/DJGe8-mU4ks?autoplay=1&mute=1&loop=1&playlist=DJGe8-mU4ks&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&fs=0&modestbranding=1&cc_load_policy=0&playsinline=1"
-          allow="autoplay; encrypted-media"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
-          style={{
-            width: '177.77vh',
-            height: '100vh',
-            minWidth: '100%',
-            minHeight: '56.25vw',
-          }}
-          title="American Dream Background"
-        />
-      </div>
+      {/* Local video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ pointerEvents: 'none' }}
+      >
+        <source src="/assets/videos/Holidays at American Dream_720p.mp4" type="video/mp4" />
+      </video>
 
       {/* Dark gradient over video */}
       <div

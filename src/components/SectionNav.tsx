@@ -4,7 +4,6 @@ const SECTIONS = [
   { id: 'hero', label: 'Hero' },
   { id: 'stats', label: 'Stats' },
   { id: 'parallax-world', label: 'Experience' },
-  { id: 'property', label: 'Property' },
   { id: 'retail', label: 'Retail' },
   { id: 'dining', label: 'Dining' },
   { id: 'events', label: 'Events' },

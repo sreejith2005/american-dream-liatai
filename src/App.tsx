@@ -4,7 +4,7 @@ import StatsSection from './components/StatsSection'
 import ParallaxWorld from './components/ParallaxWorld'
 import CustomCursor from './components/CustomCursor'
 import SectionNav from './components/SectionNav'
-import PropertyOverview from './components/PropertyOverview'
+
 import RetailLeasing from './components/RetailLeasing'
 import DiningLifestyle from './components/DiningLifestyle'
 import EventsVenues from './components/EventsVenues'
@@ -42,7 +42,7 @@ export default function App() {
         <div id="parallax-world" data-theme="dark">
           <ParallaxWorld />
         </div>
-        <PropertyOverview />
+
         <RetailLeasing />
         <DiningLifestyle />
         <EventsVenues />
