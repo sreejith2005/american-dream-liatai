@@ -2,9 +2,9 @@
 
 A cinematic, non-linear browser-based sales tool for the American Dream mall (East Rutherford, NJ), built as a high-stakes interview assignment for LIAT.AI.
 
-Live URL: [INSERT VERCEL/NETLIFY URL]
+Live URL: https://american-dream-liatai.vercel.app/
 
-GitHub: [INSERT REPO URL]
+GitHub: https://github.com/sreejith2005/american-dream-liatai
 
 ## Tech Stack
 
@@ -44,7 +44,7 @@ Vite was chosen over Next.js deliberately. Next.js was explicitly avoided to eli
 2. Clone the repo:
 
 ```bash
-git clone [INSERT REPO URL]
+git clone https://github.com/sreejith2005/american-dream-liatai
 ```
 
 3. Install dependencies:

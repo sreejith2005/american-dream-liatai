@@ -3,19 +3,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './sections.css'
 import HeroSection from './components/HeroSection'
 import StatsSection from './components/StatsSection'
-import ParallaxWorld from './components/ParallaxWorld'
 import CustomCursor from './components/CustomCursor'
 import SectionNav from './components/SectionNav'
-import ContactModal from './components/ContactModal'
 
-import RetailLeasing from './components/RetailLeasing'
-import DiningLifestyle from './components/DiningLifestyle'
-import EventsVenues from './components/EventsVenues'
-import Sponsorship from './components/Sponsorship'
-import LocationReach from './components/LocationReach'
-import TheClose from './components/TheClose'
-import Footer from './components/Footer'
-
+const ContactModal = lazy(() => import('./components/ContactModal'))
+const ParallaxWorld = lazy(() => import('./components/ParallaxWorld'))
+const RetailLeasing = lazy(() => import('./components/RetailLeasing'))
+const DiningLifestyle = lazy(() => import('./components/DiningLifestyle'))
+const EventsVenues = lazy(() => import('./components/EventsVenues'))
+const Sponsorship = lazy(() => import('./components/Sponsorship'))
+const LocationReach = lazy(() => import('./components/LocationReach'))
+const TheClose = lazy(() => import('./components/TheClose'))
+const Footer = lazy(() => import('./components/Footer'))
 const LeasingPage = lazy(() => import('./pages/LeasingPage'))
 
 export const ModalContext = createContext<(type: string) => void>(() => {})
@@ -47,16 +46,20 @@ function MainLayout() {
           <StatsSection />
         </div>
         <div id="parallax-world" data-theme="dark">
-          <ParallaxWorld />
+          <Suspense fallback={null}>
+            <ParallaxWorld />
+          </Suspense>
         </div>
 
-        <RetailLeasing />
-        <DiningLifestyle />
-        <EventsVenues />
-        <Sponsorship />
-        <LocationReach />
-        <TheClose />
-        <Footer />
+        <Suspense fallback={null}>
+          <RetailLeasing />
+          <DiningLifestyle />
+          <EventsVenues />
+          <Sponsorship />
+          <LocationReach />
+          <TheClose />
+          <Footer />
+        </Suspense>
       </main>
     </>
   )
@@ -69,11 +72,13 @@ export default function App() {
     <ModalContext.Provider value={(type: string) => setActiveModal(type)}>
       <Router>
         <CustomCursor />
-        <ContactModal 
-          isOpen={activeModal !== null} 
-          onClose={() => setActiveModal(null)} 
-          inquiryType={activeModal || ''} 
-        />
+        <Suspense fallback={null}>
+          <ContactModal 
+            isOpen={activeModal !== null} 
+            onClose={() => setActiveModal(null)} 
+            inquiryType={activeModal || ''} 
+          />
+        </Suspense>
         <Routes>
           <Route path="/" element={<MainLayout />} />
           <Route 
