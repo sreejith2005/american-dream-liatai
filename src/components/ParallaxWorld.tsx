@@ -8,77 +8,77 @@ const CLIPS = [
     frameStart: 1,
     frameEnd: 61,
     snapProgress: 0.000,
+    fadeIn: 0.000,
+    fadeOut: 0.160,
     eyebrow: 'AMERICAN DREAM',
     headline: 'Where 20 Million Stories Begin',
-    sub: 'East Rutherford, NJ  ·  The most ambitious destination ever built.',
     cta: null as string | null,
   },
   {
     id: 'destination',
     frameStart: 62,
     frameEnd: 126,
-    snapProgress: 0.145,
+    snapProgress: 0.201,
+    fadeIn: 0.201,
+    fadeOut: 0.360,
     eyebrow: 'THE DESTINATION',
     headline: '40M+ Visitors. Your Brand at the Center.',
-    sub: 'Premium dwell time. Unmatched foot traffic. A captive audience.',
     cta: null as string | null,
   },
   {
     id: 'bigsnow',
     frameStart: 127,
     frameEnd: 167,
-    snapProgress: 0.297,
+    snapProgress: 0.425,
+    fadeIn: 0.425,
+    fadeOut: 0.540,
     eyebrow: 'BIG SNOW AMERICAN DREAM',
     headline: "The World's Only Indoor Ski Slope Inside a Mall.",
-    sub: '365 days of snow. Zero weather risk. Year-round traffic.',
     cta: null as string | null,
   },
   {
     id: 'nickelodeon',
     frameStart: 168,
     frameEnd: 230,
-    snapProgress: 0.393,
+    snapProgress: 0.584,
+    fadeIn: 0.584,
+    fadeOut: 0.730,
     eyebrow: 'NICKELODEON UNIVERSE',
     headline: "America's Largest Indoor Theme Park.",
-    sub: '35+ rides and attractions. Families return, again and again.',
     cta: null as string | null,
   },
   {
     id: 'dreamworks',
     frameStart: 231,
     frameEnd: 428,
-    snapProgress: 0.540,
+    snapProgress: 0.801,
+    fadeIn: 0.801,
+    fadeOut: 0.940,
     eyebrow: 'DREAMWORKS WATER PARK',
     headline: 'One Roof. Infinite Possibilities.',
-    sub: 'The largest indoor water park in the Western Hemisphere.',
     cta: 'Explore Partnership Opportunities',
   },
 ]
 
-function getActiveClipIndex(progress: number): number {
-  for (let i = CLIPS.length - 1; i >= 0; i--) {
-    if (progress >= CLIPS[i].snapProgress) return i
-  }
-  return 0
-}
-
-function getClipLocalProgress(progress: number, clipIndex: number): number {
-  const clipStart = CLIPS[clipIndex].snapProgress
-  const clipEnd = CLIPS[clipIndex + 1]?.snapProgress ?? 1.0
-  const range = clipEnd - clipStart
-  if (range <= 0) return 0
-  return Math.min(1, Math.max(0, (progress - clipStart) / range))
-}
-
-function getOverlayOpacity(localProgress: number): number {
-  if (localProgress <= 0.70) return 1
-  if (localProgress <= 0.90) return 1 - (localProgress - 0.70) / 0.20
-  return 0
+/** Calculate overlay opacity from global progress and per-zone fade boundaries */
+function calcZoneOpacity(progress: number, fadeIn: number, fadeOut: number): number {
+  if (progress < fadeIn || progress > fadeOut) return 0
+  const zoneLength = fadeOut - fadeIn
+  const localProgress = (progress - fadeIn) / zoneLength
+  // Full opacity at the snap point, fade out in the last 20% before next zone
+  if (localProgress > 0.8) return (1 - localProgress) / 0.2
+  return 1
 }
 
 export default function ParallaxWorld() {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  // DOM refs for direct manipulation — never triggers React re-renders
+  const overlayRefs = useRef<(HTMLDivElement | null)[]>([])
+  const closingRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLAnchorElement>(null)
+  const parallaxWrapperRef = useRef<HTMLDivElement>(null)
 
   // Local hook — reacts to loading progress from the singleton preloader
   const { isReady, loadingProgress } = useImagePreloader()
@@ -86,26 +86,55 @@ export default function ParallaxWorld() {
   // Stable reference to the module-level images array
   const getImages = useCallback(() => getPreloadedImages(), [])
 
-  const { currentProgress } = useCanvasScroll({
+  // Scroll progress callback — direct DOM mutation, zero setState
+  const handleProgressUpdate = useCallback((progress: number) => {
+    // Update each zone overlay opacity
+    CLIPS.forEach((clip, i) => {
+      const el = overlayRefs.current[i]
+      if (!el) return
+      const opacity = calcZoneOpacity(progress, clip.fadeIn, clip.fadeOut)
+      el.style.opacity = String(opacity)
+    })
+
+    // CTA visibility (last clip, localProgress > 0.65)
+    if (ctaRef.current) {
+      const lastClip = CLIPS[CLIPS.length - 1]
+      const clipRange = 1.0 - lastClip.snapProgress
+      const localProgress = clipRange > 0 ? (progress - lastClip.snapProgress) / clipRange : 0
+      const isLastActive = progress >= lastClip.snapProgress
+      const ctaVisible = isLastActive && localProgress > 0.65
+      ctaRef.current.style.opacity = ctaVisible ? '1' : '0'
+      ctaRef.current.style.pointerEvents = ctaVisible ? 'auto' : 'none'
+    }
+
+    // Closing overlay — fades in during last 15% of final clip
+    if (closingRef.current) {
+      const lastClip = CLIPS[CLIPS.length - 1]
+      const clipRange = 1.0 - lastClip.snapProgress
+      const localProgress = clipRange > 0 ? (progress - lastClip.snapProgress) / clipRange : 0
+      const isLastActive = progress >= lastClip.snapProgress
+      let closingOpacity = 0
+      if (isLastActive && localProgress > 0.85) {
+        closingOpacity = Math.min(1, (localProgress - 0.85) / 0.15)
+      }
+      closingRef.current.style.opacity = String(closingOpacity)
+    }
+
+    // Parallax translateX drift
+    if (parallaxWrapperRef.current) {
+      parallaxWrapperRef.current.style.transform = `translateX(${-20 * progress}px)`
+    }
+  }, [])
+
+  useCanvasScroll({
     canvasRef,
     containerRef,
     totalFrames: TOTAL_FRAMES,
     getImages,
     isReady,
     loadingProgress,
+    onProgressUpdate: handleProgressUpdate,
   })
-
-  const activeClipIndex = getActiveClipIndex(currentProgress)
-  const activeClip = CLIPS[activeClipIndex]
-  const localProgress = getClipLocalProgress(currentProgress, activeClipIndex)
-  const overlayOpacity = getOverlayOpacity(localProgress)
-  const ctaVisible = activeClipIndex === CLIPS.length - 1 && localProgress > 0.65
-
-  // Closing overlay: fades in during last 15% of clip 5 (localProgress 0.85–1.0)
-  const isLastClip = activeClipIndex === CLIPS.length - 1
-  const closingOpacity = isLastClip && localProgress > 0.85
-    ? Math.min(1, (localProgress - 0.85) / 0.15)
-    : 0
 
   return (
     <>
@@ -139,11 +168,9 @@ export default function ParallaxWorld() {
 
         {/* Canvas wrapper with horizontal parallax shift */}
         <div
+          ref={parallaxWrapperRef}
           className="absolute inset-0"
-          style={{
-            transform: `translateX(${-20 * currentProgress}px)`,
-            willChange: 'transform',
-          }}
+          style={{ willChange: 'transform' }}
         >
           <canvas
             ref={canvasRef}
@@ -153,47 +180,48 @@ export default function ParallaxWorld() {
         </div>
 
         {/* Bottom gradient for text legibility */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
 
-        {/* Text overlay */}
-        <div
-          className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
-          style={{ opacity: overlayOpacity }}
-        >
-          <span className="font-bebas text-gold text-xs tracking-[0.3em] uppercase">
-            {activeClip.eyebrow}
-          </span>
-          <h3 className="font-cormorant text-white leading-tight text-[clamp(1.8rem,3.5vw,3rem)]">
-            {activeClip.headline}
-          </h3>
-          <p className="font-inter text-white/70 text-sm leading-relaxed max-w-xs">
-            {activeClip.sub}
-          </p>
-          {activeClip.cta && ctaVisible && (
-            <a
-              href="#"
-              className="mt-2 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300"
-              data-cursor-hover
-            >
-              {activeClip.cta}
-            </a>
-          )}
-        </div>
+        {/* Zone text overlays — one per clip, opacity driven by direct DOM mutation */}
+        {CLIPS.map((clip, i) => (
+          <div
+            key={clip.id}
+            ref={(el) => { overlayRefs.current[i] = el }}
+            className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
+            style={{ opacity: 0 }}
+          >
+            <span className="font-bebas text-gold text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+              {clip.eyebrow}
+            </span>
+            <h3 className="font-cormorant text-white font-semibold leading-tight text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
+              {clip.headline}
+            </h3>
+            {clip.cta && (
+              <a
+                ref={ctaRef}
+                href="#"
+                className="mt-2 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300"
+                style={{ opacity: 0, pointerEvents: 'none' }}
+                data-cursor-hover
+              >
+                {clip.cta}
+              </a>
+            )}
+          </div>
+        ))}
 
-        {/* Closing overlay — visible at final frame / snap 1.0 */}
+        {/* Closing overlay — visible at final frame / snap 0.999 */}
         <div
+          ref={closingRef}
           className="absolute bottom-12 left-12 z-20 flex flex-col gap-3 max-w-sm"
-          style={{ opacity: closingOpacity, transition: 'opacity 400ms ease' }}
+          style={{ opacity: 0, transition: 'opacity 400ms ease' }}
         >
-          <span className="font-bebas text-gold text-xs tracking-[0.3em] uppercase">
+          <span className="font-bebas text-gold text-lg font-bold opacity-100 tracking-[0.25em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             THE DREAM
           </span>
-          <h3 className="font-cormorant text-white leading-tight text-[clamp(1.8rem,3.5vw,3rem)]">
+          <h3 className="font-cormorant text-white font-semibold leading-tight text-5xl drop-shadow-[0_2px_12px_rgba(0,0,0,1)]">
             This isn't a mall. It's a media channel with a zip code.
           </h3>
-          <p className="font-inter text-white/70 text-sm leading-relaxed max-w-xs">
-            Where the world comes to play — and your brand comes to matter.
-          </p>
         </div>
       </section>
 
