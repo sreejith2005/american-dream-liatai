@@ -4,8 +4,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const diningCategories = [
-  { label: 'FINE DINING', name: 'Signature Restaurant Row', body: 'Reservation-driven, full-service restaurants.' },
-  { label: 'FOOD HALL', name: 'The American Dream Food Hall', body: '40+ vendors. Global cuisines. Premium fast-casual.' },
+  { label: 'FINE DINING', name: 'Signature Restaurant Row', body: 'Full-service, reservation-driven dining.' },
+  { label: 'FOOD HALL', name: 'The American Dream Food Hall', body: '40+ global cuisine vendors.' },
   { label: 'LIFESTYLE', name: 'Rooftop & Bar Experiences', body: 'Elevated bars and experiential dining.' },
 ]
 
@@ -16,9 +16,9 @@ const diningStats = [
 ]
 
 const liveCategories = [
-  { label: 'CONCERTS', name: 'World-Class Live Performances', body: 'Headline acts and residencies in a 15,000-seat venue.' },
-  { label: 'FASHION SHOWS', name: 'Runway at the Dream', body: 'High-fashion events with a built-in audience of millions.' },
-  { label: 'FILM PREMIERES', name: 'Red Carpet Experiences', body: 'Premiere screenings with celebrity appearances and immersive activations.' },
+  { label: 'CONCERTS', name: 'World-Class Live Performances', body: 'Headline acts in a 15,000-seat venue.' },
+  { label: 'FASHION SHOWS', name: 'Runway at the Dream', body: 'High-fashion events with millions watching.' },
+  { label: 'FILM PREMIERES', name: 'Red Carpet Experiences', body: 'Premiere screenings and celebrity activations.' },
 ]
 
 const liveStats = [
@@ -84,25 +84,28 @@ export default function DiningLifestyle() {
       className="w-full bg-cream"
     >
       {/* ── Part 1: Dining & Lifestyle ── */}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row md:items-stretch">
         {/* Left — Image */}
-        <div className="relative w-full md:w-1/2 overflow-hidden" style={{ height: '70vh' }}>
-          <img
-            src="/assets/Photorealistic-Renders/5.png"
-            alt="The American Dream Food Experience"
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute bottom-4 left-4 z-10">
-            <span className="font-inter text-gold text-[10px] tracking-[0.2em] uppercase bg-black/50 backdrop-blur-sm px-3 py-1.5">
-              The American Dream Food Experience
-            </span>
+        <div className="w-full md:w-[55%] p-5">
+          <div className="relative w-full h-full min-h-[480px] overflow-hidden">
+            <img
+              src="/assets/Photorealistic-Renders/5.png"
+              alt="The American Dream Food Experience"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: 'center 70%' }}
+            />
+            <div className="absolute bottom-4 left-4 z-10">
+              <span className="font-inter text-gold text-[10px] tracking-[0.2em] uppercase bg-black/50 backdrop-blur-sm px-3 py-1.5">
+                The American Dream Food Experience
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Right — Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center pl-8 md:pl-16 pr-8 py-16">
-          <span data-reveal className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-3">
+        <div className="w-full md:w-[45%] flex flex-col justify-center pl-8 md:pl-14 pr-8 py-12">
+          <span data-reveal className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-2">
             DINING &amp; LIFESTYLE
           </span>
           <h2 data-reveal className="font-cormorant text-charcoal text-[clamp(2rem,3vw,3rem)] leading-tight">
@@ -112,15 +115,14 @@ export default function DiningLifestyle() {
           </h2>
           <div data-gold-rule className="w-12 h-px bg-gold mt-4 mb-5" />
           <p data-reveal className="font-inter text-charcoal/70 text-sm leading-relaxed max-w-xs">
-            From Michelin-caliber dining to fast-casual favorites —
-            visitors don't just eat, they stay, spend, and return.
+            Visitors don't just eat — they stay, spend, and return.
           </p>
 
           {/* Categories */}
-          <div className="mt-8 flex flex-col gap-5">
+          <div className="mt-6 flex flex-col gap-4">
             {diningCategories.map((cat) => (
               <div key={cat.label} data-reveal className="flex items-start gap-4">
-                <div className="w-px min-h-[40px] bg-gold shrink-0 mt-1" />
+                <div className="w-px min-h-[36px] bg-gold shrink-0 mt-1" />
                 <div>
                   <span className="font-bebas text-gold text-sm tracking-[0.2em] block">{cat.label}</span>
                   <h4 className="font-cormorant text-charcoal text-lg leading-snug">{cat.name}</h4>
@@ -131,7 +133,7 @@ export default function DiningLifestyle() {
           </div>
 
           {/* Stats */}
-          <div data-reveal className="mt-8 flex gap-8">
+          <div data-reveal className="mt-6 flex gap-8">
             {diningStats.map((s) => (
               <div key={s.label} className="flex flex-col">
                 <span className="font-bebas text-charcoal text-3xl leading-none">{s.value}</span>
@@ -143,7 +145,7 @@ export default function DiningLifestyle() {
           <a
             href="#close"
             data-reveal
-            className="mt-6 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
+            className="mt-5 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-2.5 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             Explore F&amp;B Leasing Opportunities
           </a>
@@ -160,10 +162,10 @@ export default function DiningLifestyle() {
       </div>
 
       {/* ── Part 2: Dream Live Centre ── */}
-      <div className="flex flex-col-reverse md:flex-row">
+      <div className="flex flex-col-reverse md:flex-row md:items-stretch">
         {/* Left — Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center pr-8 md:pr-16 pl-8 py-16">
-          <span data-reveal className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-3">
+        <div className="w-full md:w-[45%] flex flex-col justify-center pr-8 md:pr-14 pl-8 py-12">
+          <span data-reveal className="font-bebas text-gold text-xs tracking-[0.3em] uppercase block mb-2">
             DREAM LIVE CENTRE
           </span>
           <h2 data-reveal className="font-cormorant text-charcoal text-[clamp(2rem,3vw,3rem)] leading-tight">
@@ -173,16 +175,14 @@ export default function DiningLifestyle() {
           </h2>
           <div data-gold-rule className="w-12 h-px bg-gold mt-4 mb-5" />
           <p data-reveal className="font-inter text-charcoal/70 text-sm leading-relaxed max-w-xs">
-            A world-class performing arts center built for headline concerts,
-            fashion week runways, and red-carpet premieres — with a captive
-            audience of 40 million visitors a year already in the building.
+            A world-class venue for concerts, fashion runways, and premieres — with 40M visitors already in the building.
           </p>
 
           {/* Categories */}
-          <div className="mt-8 flex flex-col gap-5">
+          <div className="mt-6 flex flex-col gap-4">
             {liveCategories.map((cat) => (
               <div key={cat.label} data-reveal className="flex items-start gap-4">
-                <div className="w-px min-h-[40px] bg-gold shrink-0 mt-1" />
+                <div className="w-px min-h-[36px] bg-gold shrink-0 mt-1" />
                 <div>
                   <span className="font-bebas text-gold text-sm tracking-[0.2em] block">{cat.label}</span>
                   <h4 className="font-cormorant text-charcoal text-lg leading-snug">{cat.name}</h4>
@@ -193,7 +193,7 @@ export default function DiningLifestyle() {
           </div>
 
           {/* Stats */}
-          <div data-reveal className="mt-8 flex gap-8">
+          <div data-reveal className="mt-6 flex gap-8">
             {liveStats.map((s) => (
               <div key={s.label} className="flex flex-col">
                 <span className="font-bebas text-charcoal text-3xl leading-none">{s.value}</span>
@@ -205,24 +205,26 @@ export default function DiningLifestyle() {
           <a
             href="#close"
             data-reveal
-            className="mt-6 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-3 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
+            className="mt-5 inline-block border border-gold text-gold font-inter text-xs tracking-widest uppercase px-6 py-2.5 w-fit hover:bg-gold hover:text-black transition-all duration-300 cursor-pointer"
           >
             Book the Dream Live Centre
           </a>
         </div>
 
         {/* Right — Image */}
-        <div className="relative w-full md:w-1/2 overflow-hidden" style={{ height: '70vh' }}>
-          <img
-            src="/assets/Photorealistic-Renders/13.webp"
-            alt="Dream Live Centre — Performing Arts and Concerts"
-            loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute bottom-4 right-4 z-10">
-            <span className="font-inter text-gold text-[10px] tracking-[0.2em] uppercase bg-black/50 backdrop-blur-sm px-3 py-1.5">
-              Dream Live Centre
-            </span>
+        <div className="w-full md:w-[55%] p-5">
+          <div className="relative w-full h-full min-h-[480px] overflow-hidden">
+            <img
+              src="/assets/Photorealistic-Renders/13.webp"
+              alt="Dream Live Centre — Performing Arts and Concerts"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute bottom-4 right-4 z-10">
+              <span className="font-inter text-gold text-[10px] tracking-[0.2em] uppercase bg-black/50 backdrop-blur-sm px-3 py-1.5">
+                Dream Live Centre
+              </span>
+            </div>
           </div>
         </div>
       </div>
